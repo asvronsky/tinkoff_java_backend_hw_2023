@@ -1,0 +1,44 @@
+package ru.asvronsky.linkparser;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
+public class LinkParserChainTest {
+
+    
+    private Parser mainParser; 
+
+    {
+        mainParser = new GithubParser(null);
+        mainParser = new StackOverflowParser(mainParser);
+    }    
+
+    @Test
+    public void GithubUrl() {
+        String githubUrl = "https://github.com/tinkoff-ml-dl/ml-fall22/tree/main/00.%20Lab%20Work";  
+        assertEquals(
+            new GithubParserResult("tinkoff-ml-dl", "ml-fall22"), 
+            mainParser.parse(githubUrl)
+        );
+    }
+    
+    @Test
+    public void StackOverflowUrl() {
+        String stackOverflowUrl = "https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c";
+        assertEquals(
+            new StackOverflowParserResult("1642028"), 
+            mainParser.parse(stackOverflowUrl)
+        );
+    }
+
+    @Test
+    public void NoMatch() {
+        String googleUrl = "https://stackoverflow.com/search?q=unsupported%20link";
+        assertNull(mainParser.parse(googleUrl));
+    }
+
+    
+
+}
