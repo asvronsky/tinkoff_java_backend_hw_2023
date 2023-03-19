@@ -7,6 +7,13 @@ import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 
 public final class GithubParser extends Parser {
+    /**
+     * first group: user
+     * second group: name of repository
+     */
+    private final static Pattern userAndRepoPattern = Pattern.compile(
+        "^(?>https://)?github\\.com/(?<user>.+?)/(?<repo>.+?)(?>/.*)?$"
+    );
 
     public GithubParser(Parser successor) {
         super(successor);
@@ -14,9 +21,8 @@ public final class GithubParser extends Parser {
 
     @Override
     public ParserResult parse(String url) {
-        // first group: user
-        // second group: name of repository
-        Pattern userAndRepoPattern = Pattern.compile("^(?>https://)?github.com/(?<user>.+?)/(?<repo>.+?)(?>/.*)?$");
+        
+        
         Matcher userAndRepoMatcher = userAndRepoPattern.matcher(url);
         if (userAndRepoMatcher.matches()) {
             String user = userAndRepoMatcher.group("user");

@@ -7,6 +7,9 @@ import ru.asvronsky.linkparser.ParserResults.ParserResult;
 import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
 
 public final class StackOverflowParser extends Parser {
+    private final static Pattern idPattern = Pattern.compile(
+        "^(?>https://)?stackoverflow\\.com/questions/(?<id>\\d+)(?>/.*)?$"
+    );
 
     public StackOverflowParser(Parser successor) {
         super(successor);
@@ -14,7 +17,7 @@ public final class StackOverflowParser extends Parser {
 
     @Override
     public ParserResult parse(String url) {
-        Pattern idPattern = Pattern.compile("^(?>https://)?stackoverflow\\.com/questions/(?<id>\\d+)(?>/.*)?$");
+        
         Matcher idMatcher = idPattern.matcher(url);
         if (idMatcher.matches()) {
             String id = idMatcher.group("id");
