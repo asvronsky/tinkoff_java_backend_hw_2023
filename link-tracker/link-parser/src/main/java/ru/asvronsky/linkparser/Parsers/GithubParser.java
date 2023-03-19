@@ -1,7 +1,10 @@
-package ru.asvronsky.linkparser;
+package ru.asvronsky.linkparser.Parsers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
+import ru.asvronsky.linkparser.ParserResults.ParserResult;
 
 public final class GithubParser extends Parser {
 

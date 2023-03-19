@@ -1,4 +1,4 @@
-package ru.asvronsky.linkparser;
+package ru.asvronsky.linkparser.ParserResults;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

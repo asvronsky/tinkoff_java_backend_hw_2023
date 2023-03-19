@@ -5,6 +5,12 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
+import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
+import ru.asvronsky.linkparser.Parsers.GithubParser;
+import ru.asvronsky.linkparser.Parsers.Parser;
+import ru.asvronsky.linkparser.Parsers.StackOverflowParser;
+
 public class LinkParserChainTest {
 
     

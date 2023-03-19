@@ -1,8 +1,9 @@
-package ru.asvronsky.linkparser;
+package ru.asvronsky.linkparser.Parsers;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ru.asvronsky.linkparser.ParserResults.ParserResult;
 
 @AllArgsConstructor
 public abstract sealed class Parser permits GithubParser, StackOverflowParser {

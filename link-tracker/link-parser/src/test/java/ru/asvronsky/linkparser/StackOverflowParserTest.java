@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
+import ru.asvronsky.linkparser.Parsers.Parser;
+import ru.asvronsky.linkparser.Parsers.StackOverflowParser;
+
 public class StackOverflowParserTest {
     private Parser stackOverflowParser = new StackOverflowParser(null);
     

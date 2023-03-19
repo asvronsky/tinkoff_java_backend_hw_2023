@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
+import ru.asvronsky.linkparser.Parsers.GithubParser;
+import ru.asvronsky.linkparser.Parsers.Parser;
+
 public class GithubParserTest 
 {
     private Parser githubParser = new GithubParser(null);
