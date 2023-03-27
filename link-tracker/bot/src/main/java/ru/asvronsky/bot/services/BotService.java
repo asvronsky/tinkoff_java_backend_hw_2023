@@ -1,16 +1,12 @@
 package ru.asvronsky.bot.services;
 
-import ru.asvronsky.bot.dto.UpdateLinksResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BotService {
 
-    public UpdateLinksResponse updateLinks() {
-        return new UpdateLinksResponse(
-            0, 
-            "google.com", 
-            "description", 
-            null
-        );
+    public void updateLinks() {
+
     }
     
 }
