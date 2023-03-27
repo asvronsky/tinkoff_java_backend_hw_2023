@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import ru.asvronsky.bot.dto.ApiErrorResponse;
+
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
     
@@ -56,12 +58,4 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
             .toList();
     }
 
-    private record ApiErrorResponse(
-        String description,
-        String code,
-        String exceptionName,
-        String exceptionMessage,
-        List<String> stacktrace
-    ) 
-    { };
 }
