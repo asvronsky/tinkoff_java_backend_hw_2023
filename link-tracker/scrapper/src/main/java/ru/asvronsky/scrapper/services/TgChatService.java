@@ -2,19 +2,19 @@ package ru.asvronsky.scrapper.services;
 
 import org.springframework.stereotype.Service;
 
-import ru.asvronsky.scrapper.exceptions.ChatIdNotFoundException;
-import ru.asvronsky.scrapper.exceptions.InvalidRequestFormatException;
+import ru.asvronsky.scrapper.exceptions.NotFoundException;
 
 @Service
 public class TgChatService {
 
-
     public void registerChat(long id) {
-        throw new InvalidRequestFormatException("Unable to register chat", "400");
+
     }
 
     public void deleteChat(long id) {
-        throw new ChatIdNotFoundException("Unable to delete chat", "404");
+        if (id == 666) {
+            throw new NotFoundException("Chat id not found");
+        }
     }
     
     public LinksService getLinksService(long id) {
