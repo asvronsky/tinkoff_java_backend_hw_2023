@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -12,6 +13,7 @@ import ru.asvronsky.scrapper.configuration.ApplicationConfig;
 @SpringBootApplication
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
+@EnableScheduling
 @OpenAPIDefinition(info = @Info(title = "Swagger API", version = "1.0.0"))
 public class ScrapperApplication {
     public static void main(String[] args) {
