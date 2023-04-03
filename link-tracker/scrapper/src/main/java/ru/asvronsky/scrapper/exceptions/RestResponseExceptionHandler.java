@@ -7,12 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import ru.asvronsky.scrapper.dto.ApiErrorResponse;
 
 @ControllerAdvice
-public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestResponseExceptionHandler {
     
     @ExceptionHandler(value = {NotFoundException.class})
     public ResponseEntity<ApiErrorResponse> handleNotFoundException(NotFoundException ex, WebRequest request) {
