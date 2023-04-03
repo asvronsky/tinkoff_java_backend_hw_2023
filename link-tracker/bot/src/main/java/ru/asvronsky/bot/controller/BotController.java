@@ -31,7 +31,7 @@ public class BotController {
     })
     @PostMapping(consumes = "application/json")
     public void updateLinks(@RequestBody(required = true) UpdateLinksRequest request) {
-        
+        botService.updateLinks();
     }
 
 }

@@ -5,18 +5,20 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 public interface Command {
-    String command();
+
+    public String command();
     
-    String description();
+    public String description();
 
-    SendMessage handle(Update update);
+    public SendMessage handle(Update update);
 
-    default boolean supports(Update update) {
-        
-        return false;
+    public boolean supports(Update update);
+
+    public default BotCommand toApiCommand() {
+        return new BotCommand(command(), description());
     }
 
-    default BotCommand toApiCommand() {
-        return new BotCommand(command(), description());
+    public default String getHelpDescription() {
+        return "/" + command() + " - " + description();
     }
 }
