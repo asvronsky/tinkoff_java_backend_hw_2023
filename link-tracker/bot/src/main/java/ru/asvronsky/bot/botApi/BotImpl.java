@@ -3,6 +3,7 @@ package ru.asvronsky.bot.botApi;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeAllPrivateChats;
@@ -12,6 +13,7 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.asvronsky.bot.exceptions.ScrapperResponseException;
 
 @Slf4j
 public class BotImpl implements Bot {
@@ -20,7 +22,6 @@ public class BotImpl implements Bot {
     private final TelegramBot bot;
 
     public BotImpl(String token, UserMessageProcessor processor) {
-        log.info("create new bot");
         this.processor = processor;
         this.token = token;
         bot = new TelegramBot(token);
@@ -34,26 +35,53 @@ public class BotImpl implements Bot {
     @Override
     public int process(List<Update> updates) {
         log.info("incoming batch of updates: " + updates.size());
+
+        int lastUpdate = UpdatesListener.CONFIRMED_UPDATES_NONE;
         for (Update update : updates) {
-            log.info("incoming update: " + update.updateId());
-            SendMessage msg = processor.process(update);
+            log.info("incoming update #" + update.updateId());
+            SendMessage msg;
+            try {
+                msg = processor.process(update);
+            } catch (Exception e) {
+                logException(e);
+                msg = generateErrorMessage(update);
+            }
+
             execute(msg);
+            lastUpdate = update.updateId();
+            log.info("served update #" + update.updateId());
         }
-        return lastUpdateId(updates);
+        return lastUpdate;
     }
+
+    private void logException(Exception e) {
+        if (e instanceof ScrapperResponseException) {
+            log.error("Scrapper error: " + e.getMessage());
+        } else {
+            e.printStackTrace();
+        }
+    }
+
+    private SendMessage generateErrorMessage(Update update) {
+        long chatId = update.message().chat().id();
+        return new SendMessage(chatId, "Oops! Error");
+    } 
 
     @Override
     public void start() {
         log.info("Bot up, token: " + token);
+        BaseResponse response = bot.execute(setCommands());
+        log.info("Set commands response: " + response.toString());
+        bot.setUpdatesListener(this);
+    }
+
+    private SetMyCommands setCommands() {
         BotCommand[] botCommands = processor.commands()
                                 .stream()
                                 .map(Command::toApiCommand)
                                 .toArray(BotCommand[]::new);
-        SetMyCommands cmds = new SetMyCommands(botCommands)
+        return new SetMyCommands(botCommands)
                         .scope(new BotCommandScopeAllPrivateChats());
-        BaseResponse response = bot.execute(cmds);
-        log.info(response.toString());
-        bot.setUpdatesListener(this);
     }
 
     @Override
@@ -61,9 +89,4 @@ public class BotImpl implements Bot {
         bot.shutdown();
         log.info("Bot closed");
     }
-
-    private int lastUpdateId(List<Update> updates) {
-        return updates.get(updates.size() - 1).updateId();
-    }
-    
 }
