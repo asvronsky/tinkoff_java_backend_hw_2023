@@ -18,7 +18,11 @@ public interface Command {
         return new BotCommand(command(), description());
     }
 
+    public default String getUsage() {
+        return "/" + command();
+    }
+
     public default String getHelpDescription() {
-        return "/" + command() + " - " + description();
+        return getUsage() + " - " + description();
     }
 }

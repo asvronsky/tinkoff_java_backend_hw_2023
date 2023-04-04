@@ -4,10 +4,12 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 
-public class StartCommand extends PatternMatchingCommand {
+import ru.asvronsky.bot.clients.ScrapperClient;
 
-    public StartCommand() {
-        super("start", "register new user");
+public class StartCommand extends RequiringClientCommand {
+
+    public StartCommand(ScrapperClient client) {
+        super("start", "register new user", client);
     }
 
     @Override
@@ -15,6 +17,8 @@ public class StartCommand extends PatternMatchingCommand {
         long chatId = update.message().chat().id();
         User user = update.message().from();
         String username = user.firstName() + " " + user.lastName();
+
+        client().registerChat(chatId);
         return new SendMessage(chatId, "Hello, " + username + "!");
     }    
 }
