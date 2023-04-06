@@ -19,6 +19,11 @@ public class ListCommand extends RequiringClientCommand {
     public SendMessage handle(Update update) {
         long chatId = update.message().chat().id();
         List<LinkResponse> links = client().getAllLinks(chatId).links();
+        
+        if (links == null || links.size() == 0) {
+            return new SendMessage(chatId, "Sorry! No links are being tracked");
+        }
+
         String responseMessage = links.stream()
             .map(LinkResponse::url)
             .collect(Collectors.joining("\n"));
