@@ -4,9 +4,9 @@ import java.util.regex.Pattern;
 
 import com.pengrad.telegrambot.model.Update;
 
-import ru.asvronsky.bot.botApi.Command;
+import ru.asvronsky.bot.botApi.HelpSupportingCommand;
 
-public abstract class PatternMatchingCommand implements Command  {
+public abstract class PatternMatchingCommand implements HelpSupportingCommand  {
     private final String command;
     private final String description;
     private final Pattern pattern;

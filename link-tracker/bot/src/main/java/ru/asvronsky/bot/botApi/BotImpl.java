@@ -78,7 +78,7 @@ public class BotImpl implements Bot {
     private SetMyCommands setCommands() {
         BotCommand[] botCommands = processor.commands()
                                 .stream()
-                                .map(Command::toApiCommand)
+                                .map(HelpSupportingCommand::toApiCommand)
                                 .toArray(BotCommand[]::new);
         return new SetMyCommands(botCommands)
                         .scope(new BotCommandScopeAllPrivateChats());

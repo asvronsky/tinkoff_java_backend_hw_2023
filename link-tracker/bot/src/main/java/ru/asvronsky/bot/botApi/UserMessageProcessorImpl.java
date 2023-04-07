@@ -23,14 +23,17 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         commands.add(new TrackCommand(scrapperClient));
         commands.add(new UntrackCommand(scrapperClient));
         commands.add(new ListCommand(scrapperClient));
-        commands.add(new HelpCommand(commands));
+        commands.add(new HelpCommand(commands()));
         commands.add(new UnknownCommand());
     }
 
 
     @Override
-    public List<Command> commands() {
-        return commands.subList(0, commands.size() - 1);
+    public List<HelpSupportingCommand> commands() {
+        return commands.stream()
+                .filter(command -> (command instanceof HelpSupportingCommand))
+                .map(command -> (HelpSupportingCommand) command)
+                .toList();
     }
 
     @Override

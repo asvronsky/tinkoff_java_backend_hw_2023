@@ -6,23 +6,12 @@ import com.pengrad.telegrambot.request.SendMessage;
 import ru.asvronsky.bot.botApi.Command;
 
 public class UnknownCommand implements Command {
-    private String command = "unknown command";
-    private String description = "unknown command";
-
-    @Override
-    public String command() {
-        return command;
-    }
-
-    @Override
-    public String description() {
-        return description;
-    }
+    private final String defaultMessage = "Sorry! Unknown command";
 
     @Override
     public SendMessage handle(Update update) {
         long chatId = update.message().chat().id();
-        return new SendMessage(chatId, "Sorry! Unknown command");
+        return new SendMessage(chatId, defaultMessage);
     }
 
     @Override
