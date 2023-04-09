@@ -4,13 +4,14 @@
   <parent>
     <artifactId>link-tracker</artifactId>
     <groupId>ru.asvronsky</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
   </parent>
 
   <groupId>ru.asvronsky</groupId>
   <artifactId>link-parser</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <name>link-parser</name>
+  <packaging>jar</packaging>
 
   <dependencies>
 
@@ -18,10 +19,27 @@
 
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 

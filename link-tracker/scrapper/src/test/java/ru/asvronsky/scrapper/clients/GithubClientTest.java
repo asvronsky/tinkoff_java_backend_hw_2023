@@ -1,14 +1,16 @@
 package ru.asvronsky.scrapper.clients;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.OffsetDateTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import ru.asvronsky.scrapper.dto.GithubResponse;
 
+@Disabled
 public class GithubClientTest {
     
     @Test

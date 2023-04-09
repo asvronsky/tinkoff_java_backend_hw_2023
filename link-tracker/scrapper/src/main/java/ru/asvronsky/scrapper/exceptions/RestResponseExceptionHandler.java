@@ -44,7 +44,7 @@ public class RestResponseExceptionHandler {
         return new ApiErrorResponse(
                 description, 
                 code, 
-                ex.getClass().getSimpleName(), 
+                ex.getClass().getName(), 
                 ex.getMessage(),
                 stackTraceToStrings(ex)
             );
