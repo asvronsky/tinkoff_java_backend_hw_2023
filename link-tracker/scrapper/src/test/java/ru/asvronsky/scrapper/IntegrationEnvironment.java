@@ -1,11 +1,12 @@
 package ru.asvronsky.scrapper;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -18,11 +19,10 @@ import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
 import liquibase.resource.DirectoryResourceAccessor;
-import lombok.extern.slf4j.Slf4j;
 
 @Testcontainers
-@Slf4j
 public abstract class IntegrationEnvironment {
     
     @Container
@@ -33,27 +33,34 @@ public abstract class IntegrationEnvironment {
             .withDatabaseName("scrapper");
         POSTGRES.start();
         try {
-            Connection connection = DriverManager.getConnection(
-                POSTGRES.getJdbcUrl(), 
-                POSTGRES.getUsername(), 
-                POSTGRES.getPassword()
-            );
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection)); 
+            runMigrations();
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Running migrations failure", e);
+        }
+    }
 
-            Path changelog = Paths.get("").toAbsolutePath()
-                .getParent()
-                .resolve("migrations");
-            Liquibase liquibase = new Liquibase(
-                "changelog-master.xml", 
-                new DirectoryResourceAccessor(changelog), 
-                database
-            );
-            liquibase.update(new Contexts(), new LabelExpression());
-            liquibase.close();
-        }
-        catch ( Exception e ) {
-            log.error(null, e);
-        }
+    static private void runMigrations() 
+            throws SQLException, LiquibaseException, FileNotFoundException {
+
+        Connection connection = DriverManager.getConnection(
+            POSTGRES.getJdbcUrl(), 
+            POSTGRES.getUsername(), 
+            POSTGRES.getPassword()
+        );
+        Database database = DatabaseFactory.getInstance()
+            .findCorrectDatabaseImplementation(new JdbcConnection(connection)); 
+
+        Path changelog = Paths.get("").toAbsolutePath()
+            .getParent()
+            .resolve("migrations");
+        Liquibase liquibase = new Liquibase(
+            "changelog-master.xml", 
+            new DirectoryResourceAccessor(changelog), 
+            database
+        );
+        liquibase.update(new Contexts(), new LabelExpression());
+        liquibase.close();
     }
     
     @DynamicPropertySource
