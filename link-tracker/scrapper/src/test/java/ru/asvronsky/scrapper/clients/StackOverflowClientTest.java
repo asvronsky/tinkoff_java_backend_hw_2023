@@ -11,8 +11,8 @@ import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import ru.asvronsky.scrapper.dto.ListStackOverflowResponse;
-import ru.asvronsky.scrapper.dto.StackOverflowResponse;
+import ru.asvronsky.scrapper.dto.client.ListStackOverflowResponse;
+import ru.asvronsky.scrapper.dto.client.StackOverflowResponse;
 
 @Disabled
 public class StackOverflowClientTest {

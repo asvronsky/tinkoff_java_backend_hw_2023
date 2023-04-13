@@ -2,6 +2,8 @@ package ru.asvronsky.bot.botApi;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
@@ -12,20 +14,18 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.asvronsky.bot.exceptions.ScrapperResponseException;
 
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class BotImpl implements Bot {
-    private final UserMessageProcessor processor;
-    private final String token;
-    private final TelegramBot bot;
 
-    public BotImpl(String token, UserMessageProcessor processor) {
-        this.processor = processor;
-        this.token = token;
-        bot = new TelegramBot(token);
-    }
+    private final UserMessageProcessor processor;
+    private final TelegramBot bot;
 
     @Override
     public <T extends BaseRequest<T, R>, R extends BaseResponse> void execute(BaseRequest<T, R> request) {
@@ -68,8 +68,9 @@ public class BotImpl implements Bot {
     } 
 
     @Override
+    @PostConstruct
     public void start() {
-        log.info("Bot up, token: " + token);
+        log.info("Bot up, token: " + bot.getToken());
         BaseResponse response = bot.execute(setCommands());
         log.info("Set commands response: " + response.toString());
         bot.setUpdatesListener(this);

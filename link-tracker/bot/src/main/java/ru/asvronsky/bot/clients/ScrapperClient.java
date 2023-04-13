@@ -14,11 +14,11 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
 import ru.asvronsky.bot.exceptions.ScrapperResponseException;
-import ru.asvronsky.scrapper.dto.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.ApiErrorResponse;
-import ru.asvronsky.scrapper.dto.LinkResponse;
-import ru.asvronsky.scrapper.dto.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.RemoveLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.scrapper.dto.controller.LinkResponse;
+import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
+import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -102,9 +102,9 @@ public class ScrapperClient {
 
     private static ExchangeFilterFunction apiErrorResponseToError() {
         return ExchangeFilterFunction.ofResponseProcessor(response -> {
-            if (response.statusCode().isError()) {
+            if (response.statusCode().is4xxClientError()) {
                 ApiErrorResponse apiResponse = response.bodyToMono(ApiErrorResponse.class).block();
-                return Mono.error(new ScrapperResponseException(apiResponse.toString()));
+                return Mono.error(new ScrapperResponseException(apiResponse));
             }
             return Mono.just(response);
         });
