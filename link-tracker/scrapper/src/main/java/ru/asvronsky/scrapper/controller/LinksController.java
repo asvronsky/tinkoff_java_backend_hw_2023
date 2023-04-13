@@ -14,11 +14,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.scrapper.dto.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.LinkResponse;
-import ru.asvronsky.scrapper.dto.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.ApiErrorResponse;
-import ru.asvronsky.scrapper.dto.RemoveLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.scrapper.dto.controller.LinkResponse;
+import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
+import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
 import ru.asvronsky.scrapper.services.TgChatService;
 
 @RestController
@@ -38,6 +38,7 @@ public class LinksController {
     @GetMapping(produces = "application/json")
     public ListLinkResponse getAllLinks(
         @RequestHeader(required = true, value = "Tg-Chat-Id") long id) {
+
         return tgChatService.getLinksService(id).getAllLinks();
     }
 

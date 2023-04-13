@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import ru.asvronsky.scrapper.dto.ApiErrorResponse;
+
+import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler {

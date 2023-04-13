@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.scrapper.dto.ApiErrorResponse;
+import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
 import ru.asvronsky.scrapper.services.TgChatService;
 
 @RestController
