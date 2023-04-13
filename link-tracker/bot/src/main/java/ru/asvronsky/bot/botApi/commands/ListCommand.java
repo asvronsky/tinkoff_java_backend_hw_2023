@@ -4,12 +4,15 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
 import ru.asvronsky.scrapper.dto.controller.LinkResponse;
 
+@Component
 public class ListCommand extends RequiringClientCommand {
     
     public ListCommand(ScrapperClient client) {

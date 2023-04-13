@@ -5,12 +5,15 @@ import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Component;
+
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
 import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
 
+@Component
 public class TrackCommand extends RequiringClientCommand {
     private static final String command = "track";
     private static final String description = "start tracking given link";
