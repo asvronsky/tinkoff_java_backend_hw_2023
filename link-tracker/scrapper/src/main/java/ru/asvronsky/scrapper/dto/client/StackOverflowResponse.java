@@ -1,4 +1,4 @@
-package ru.asvronsky.scrapper.dto;
+package ru.asvronsky.scrapper.dto.client;
 
 import java.time.OffsetDateTime;
 
