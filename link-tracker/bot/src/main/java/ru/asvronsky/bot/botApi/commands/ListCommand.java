@@ -1,5 +1,6 @@
 package ru.asvronsky.bot.botApi.commands;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,7 +8,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.LinkResponse;
+import ru.asvronsky.scrapper.dto.controller.LinkResponse;
 
 public class ListCommand extends RequiringClientCommand {
     
@@ -26,6 +27,7 @@ public class ListCommand extends RequiringClientCommand {
 
         String responseMessage = links.stream()
             .map(LinkResponse::url)
+            .map(URI::toString)
             .collect(Collectors.joining("\n"));
         return new SendMessage(chatId, responseMessage);
     }

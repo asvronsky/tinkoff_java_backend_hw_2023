@@ -1,5 +1,7 @@
 package ru.asvronsky.bot.botApi.commands;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +9,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.RemoveLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
 
 public class UntrackCommand extends RequiringClientCommand {
     private static final String command = "untrack";
@@ -30,9 +32,14 @@ public class UntrackCommand extends RequiringClientCommand {
 
         Matcher matcher = parsePattern.matcher(text);
         if (matcher.matches()) {
-            String url = matcher.group("url");
-            client().deleteLink(chatId, new RemoveLinkRequest(url));
-            return new SendMessage(chatId, "Link \""+url+"\" removed!");
+            String urlString = matcher.group("url");
+            try {
+                URI url = new URI(urlString);
+                client().deleteLink(chatId, new RemoveLinkRequest(url));
+                return new SendMessage(chatId, "Link \""+url+"\" removed!");
+            } catch (URISyntaxException e) {
+                return new SendMessage(chatId, "Wrong link format, try again!");
+            }
         } 
 
         return new SendMessage(chatId, "Invalid request, usage:\n"+getUsage());
