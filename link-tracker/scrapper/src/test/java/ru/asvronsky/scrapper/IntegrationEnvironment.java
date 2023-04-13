@@ -17,7 +17,7 @@ import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
+import liquibase.database.core.PostgresDatabase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.DirectoryResourceAccessor;
@@ -32,35 +32,33 @@ public abstract class IntegrationEnvironment {
         POSTGRES = new PostgreSQLContainer<>("postgres:15")
             .withDatabaseName("scrapper");
         POSTGRES.start();
-        try {
-            runMigrations();
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Running migrations failure", e);
-        }
+        
+        runMigrations();
     }
 
-    static private void runMigrations() 
-            throws SQLException, LiquibaseException, FileNotFoundException {
-
-        Connection connection = DriverManager.getConnection(
+    private static void runMigrations() {
+        Path changelogPath = Paths.get("").toAbsolutePath()
+            .getParent()
+            .resolve("migrations");
+        
+        try(Connection conn = DriverManager.getConnection(
             POSTGRES.getJdbcUrl(), 
             POSTGRES.getUsername(), 
             POSTGRES.getPassword()
-        );
-        Database database = DatabaseFactory.getInstance()
-            .findCorrectDatabaseImplementation(new JdbcConnection(connection)); 
+        )) {
+            Database db = new PostgresDatabase();
+            db.setConnection(new JdbcConnection(conn)); 
 
-        Path changelog = Paths.get("").toAbsolutePath()
-            .getParent()
-            .resolve("migrations");
-        Liquibase liquibase = new Liquibase(
-            "changelog-master.xml", 
-            new DirectoryResourceAccessor(changelog), 
-            database
-        );
-        liquibase.update(new Contexts(), new LabelExpression());
-        liquibase.close();
+            Liquibase liquibase = new Liquibase(
+                "changelog-master.xml", 
+                new DirectoryResourceAccessor(changelogPath), 
+                db
+            );
+            liquibase.update(new Contexts(), new LabelExpression());
+            liquibase.close();
+        } catch (FileNotFoundException | SQLException | LiquibaseException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     @DynamicPropertySource
