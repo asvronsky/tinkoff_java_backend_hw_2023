@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
    
-    <include file="scrapper-2023.1/11-04-2023-create-chat-table.xml" />
-    <include file="scrapper-2023.1/11-04-2023-create-link-table.xml" />
-    <include file="scrapper-2023.1/11-04-2023-create-chat-link-table.xml" />
+    <include file="chat/01-create-chat-table.sql" />
+    <include file="link/01-create-link-table.sql" />
+    <include file="chat-link/01-create-chat-link-table.sql" />
 
 </databaseChangeLog>
