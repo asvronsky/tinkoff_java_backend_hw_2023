@@ -59,6 +59,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-aop</artifactId>
   </dependency>
+
+    <dependency>
+      <groupId>ru.asvronsky</groupId>
+      <artifactId>link-parser</artifactId>
+      <version>${revision}</version>
+    </dependency>
     
   </dependencies>
   

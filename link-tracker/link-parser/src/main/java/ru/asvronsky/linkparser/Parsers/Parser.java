@@ -1,21 +1,19 @@
 package ru.asvronsky.linkparser.Parsers;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import java.net.URI;
+import java.util.Optional;
+
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 
-@AllArgsConstructor
-public abstract sealed class Parser permits GithubParser, StackOverflowParser {
-    @Getter @Setter private Parser successor;
+@FunctionalInterface
+public interface Parser {
 
-    public ParserResult parse(String url) {
-        if (getSuccessor() != null) {
-            return getSuccessor().parse(url);
-        } else {
-            // throw new IllegalArgumentException("Unable to find the correct parser");
-            return null;
-        }
+    public Optional<ParserResult> parse(URI url);
+
+    default public Parser appendNext(Parser nextParser) {
+        return url -> {
+            return parse(url).or(() -> nextParser.parse(url));
+        };
     }
 
 }
