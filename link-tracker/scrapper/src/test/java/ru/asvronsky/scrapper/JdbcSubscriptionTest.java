@@ -29,31 +29,29 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
     @Transactional
     @Rollback
     public void addAndRemoveOneChatTest() {
-        Chat chat = new Chat();
-        chat.setChatId(0);
+        long chatId = 0;
 
-        chatRepository.add(chat);
+        chatRepository.add(chatId);
         List<Chat> chats = chatRepository.findAll();
-        Optional<Chat> removed = chatRepository.remove(chat);
+        Optional<Chat> removed = chatRepository.remove(chatId);
 
         assertEquals(1, chats.size());
         assertTrue(removed.isPresent());
-        assertEquals(0, removed.get().getChatId());
+        assertEquals(chatId, removed.get().getChatId());
     }
 
     @Test
     @Transactional
     @Rollback
     public void subscribeOneChatTest() {
-        Chat chat = new Chat();
-        chat.setChatId(0);
+        long chatId = 0;
         Link link = new Link();
         link.setUrl("google.com");
 
-        chatRepository.add(chat);
-        Link addedLink = subscriptionRepository.add(chat, link);
-        List<Link> subscriptions = subscriptionRepository.findAll(chat);
-        Optional<Link> removedLink = subscriptionRepository.remove(chat, link);
+        chatRepository.add(chatId);
+        Link addedLink = subscriptionRepository.add(chatId, link);
+        List<Link> subscriptions = subscriptionRepository.findAll(chatId);
+        Optional<Link> removedLink = subscriptionRepository.remove(chatId, link);
 
         assertEquals("google.com", addedLink.getUrl());
         assertEquals(1, subscriptions.size());
