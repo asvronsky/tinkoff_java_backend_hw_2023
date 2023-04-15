@@ -1,6 +1,6 @@
 --liquibase formatted SQL
 
---changeset asvronsky:01-create-link-table
+--changeset asvronsky:02-create-link-table
 create table link (
     id          bigint             generated always as identity,
     url         text                                   not null,

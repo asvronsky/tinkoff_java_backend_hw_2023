@@ -1,7 +1,7 @@
 --liquibase formatted SQL
 
---changeset asvronsky:01-create-chat-link-table
-create table chat_link (
+--changeset asvronsky:03-create-subscription-table
+create table subscription (
     link_id bigint not null,
     chat_id bigint not null,
 
