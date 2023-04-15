@@ -23,7 +23,7 @@ public class JdbcChatDao implements ChatDao {
 
     @Override
     @Transactional
-    public void add(Chat chat) {
+    public void add(long chatId) {
         String sqlAdd = """
                 insert into chat(chat_id)
                 values (:chatId)
@@ -32,13 +32,13 @@ public class JdbcChatDao implements ChatDao {
         
         jdbcTemplate.update(
             sqlAdd,
-            Map.of("chatId", chat.getChatId())
+            Map.of("chatId", chatId)
         );
     }
 
     @Override
     @Transactional
-    public Optional<Chat> remove(Chat chat) {
+    public Optional<Chat> remove(long chatId) {
         String sqlDelete = """
                 delete from chat
                 where chat_id = :chatId
@@ -47,7 +47,7 @@ public class JdbcChatDao implements ChatDao {
         
         return Optional.ofNullable(jdbcTemplate.queryForObject(
             sqlDelete,
-            Map.of("chatId", chat.getChatId()),
+            Map.of("chatId", chatId),
             rowMapper
         ));
     }

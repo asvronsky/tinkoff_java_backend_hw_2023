@@ -7,7 +7,8 @@ import ru.asvronsky.scrapper.model.Chat;
 
 public interface ChatDao {
     
-    public void add(Chat chat);
-    public Optional<Chat> remove(Chat chat);
+    public void add(long chatId);
+    public Optional<Chat> remove(long chatId);
     public List<Chat> findAll();
+    
 }

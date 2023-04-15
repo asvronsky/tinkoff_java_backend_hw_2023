@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.scrapper.model.Chat;
 import ru.asvronsky.scrapper.model.Link;
 
 @Repository
@@ -27,7 +26,7 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
 
     @Override
     @Transactional
-    public Link add(Chat chat, Link link) {
+    public Link add(long chatId, Link link) {
         String sqlAddLink = """
                 insert into link(url)
                 values (:url)
@@ -57,7 +56,7 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
 
         jdbcTemplate.update(
             sqlSubscribe,
-            Map.of("chatId", chat.getChatId(), "linkId", returnedLink.getId())
+            Map.of("chatId", chatId, "linkId", returnedLink.getId())
         );
 
         return returnedLink;
@@ -65,7 +64,7 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
 
     @Override
     @Transactional
-    public Optional<Link> remove(Chat chat, Link link) {
+    public Optional<Link> remove(long chatId, Link link) {
         String sqlDelete = """
                 delete from subscription as s
                 using link as l
@@ -75,21 +74,21 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
         
         return Optional.ofNullable(jdbcTemplate.queryForObject(
             sqlDelete,
-            Map.of("url", link.getUrl(), "chatId", chat.getChatId()),
+            Map.of("url", link.getUrl(), "chatId", chatId),
             rowMapper
         ));
     }
 
     @Override
     @Transactional
-    public List<Link> findAll(Chat chat) {
+    public List<Link> findAll(long chatId) {
         String sqlFindAll = """
                 select l.* from link as l, subscription as s
                 where l.id = s.link_id and s.chat_id = :chatId
                 """;
         return jdbcTemplate.query(
             sqlFindAll,
-            Map.of("chatId", chat.getChatId()),
+            Map.of("chatId", chatId),
             rowMapper
         );
     }
