@@ -1,4 +1,4 @@
 .vscode
 target
 access_token.txt
-*.flattened-pom.xml
+.flattened-pom.xml
