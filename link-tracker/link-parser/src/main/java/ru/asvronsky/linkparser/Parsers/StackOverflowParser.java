@@ -15,7 +15,11 @@ public class StackOverflowParser implements Parser {
         if (path.getName(0).toString().equals("stackoverflow.com")) {
             if (path.getNameCount() >= 3 && path.getName(1).toString().equals("questions")) {
                 Long id = Long.parseLong(path.getName(2).toString());
-                return Optional.of(new StackOverflowParserResult(id));
+                var result = new StackOverflowParserResult(id);
+                result.setNormalizedLink(
+                    URI.create("stackoverflow.com/questions/%d".formatted(id))
+                );
+                return Optional.of(result);
             }
         }
         return Optional.empty();
