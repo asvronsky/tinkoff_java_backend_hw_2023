@@ -101,12 +101,17 @@ public class ScrapperClient {
     
 
     private static ExchangeFilterFunction apiErrorResponseToError() {
-        return ExchangeFilterFunction.ofResponseProcessor(response -> {
-            if (response.statusCode().is4xxClientError()) {
-                ApiErrorResponse apiResponse = response.bodyToMono(ApiErrorResponse.class).block();
-                return Mono.error(new ScrapperResponseException(apiResponse));
+        return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+            if (clientResponse.statusCode().is4xxClientError()) {
+                
+                return clientResponse
+                    .bodyToMono(ApiErrorResponse.class)
+                    .flatMap(apiResponse -> {
+                        log.info("Scrapper error response: " + apiResponse);
+                        return Mono.error(new ScrapperResponseException(apiResponse));
+                    });
             }
-            return Mono.just(response);
+            return Mono.just(clientResponse);
         });
     }
 }

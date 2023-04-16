@@ -39,14 +39,8 @@ public class BotImpl implements Bot {
         int lastUpdate = UpdatesListener.CONFIRMED_UPDATES_NONE;
         for (Update update : updates) {
             log.info("incoming update #" + update.updateId());
-            SendMessage msg;
-            try {
-                msg = processor.process(update);
-            } catch (Exception e) {
-                logException(e);
-                msg = generateErrorMessage(update);
-            }
-
+            SendMessage msg = processHandler(update);
+        
             execute(msg);
             lastUpdate = update.updateId();
             log.info("served update #" + update.updateId());
@@ -54,15 +48,15 @@ public class BotImpl implements Bot {
         return lastUpdate;
     }
 
-    private void logException(Exception e) {
-        if (e instanceof ScrapperResponseException) {
-            log.error("Scrapper error: " + e.getMessage());
-        } else {
+    private SendMessage processHandler(Update update) {
+        try {
+            return processor.process(update);
+        } catch (ScrapperResponseException e) {
+            log.error("Scrapper response (UNINTENDED exception):", e);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
-    private SendMessage generateErrorMessage(Update update) {
         long chatId = update.message().chat().id();
         return new SendMessage(chatId, "Oops! Error");
     } 
