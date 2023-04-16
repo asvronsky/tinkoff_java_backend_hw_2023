@@ -1,9 +1,14 @@
 package ru.asvronsky.bot.exceptions;
 
-public class ScrapperResponseException extends RuntimeException {
+import lombok.Getter;
+import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
 
-    public ScrapperResponseException(String message) {
-        super(message);
+@Getter
+public class ScrapperResponseException extends RuntimeException {
+    private final ApiErrorResponse response;
+
+    public ScrapperResponseException(ApiErrorResponse response) {
+        this.response = response;
     }
     
 }

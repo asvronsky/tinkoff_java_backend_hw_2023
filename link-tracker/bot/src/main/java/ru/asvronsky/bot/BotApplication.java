@@ -1,7 +1,9 @@
 package ru.asvronsky.bot;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -11,6 +13,7 @@ import ru.asvronsky.bot.configuration.ApplicationConfig;
 
 @SpringBootApplication
 @EnableConfigurationProperties
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @ConfigurationPropertiesScan
 @OpenAPIDefinition(info = @Info(title = "Bot API", version = "1.0.0"))
 public class BotApplication {

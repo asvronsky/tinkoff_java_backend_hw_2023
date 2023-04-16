@@ -2,11 +2,14 @@ package ru.asvronsky.bot.botApi.commands;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.botApi.HelpSupportingCommand;
 
+@Component
 public class HelpCommand extends PatternMatchingCommand {
     private final String helpMessage;
 

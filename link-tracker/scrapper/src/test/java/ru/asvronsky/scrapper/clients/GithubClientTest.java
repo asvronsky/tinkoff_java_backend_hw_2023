@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import ru.asvronsky.scrapper.dto.GithubResponse;
+import ru.asvronsky.scrapper.dto.client.GithubResponse;
 
 @Disabled
 public class GithubClientTest {

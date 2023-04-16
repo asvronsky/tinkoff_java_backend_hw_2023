@@ -1,14 +1,19 @@
 package ru.asvronsky.bot.botApi.commands;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Component;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.AddLinkRequest;
+import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
 
+@Component
 public class TrackCommand extends RequiringClientCommand {
     private static final String command = "track";
     private static final String description = "start tracking given link";
@@ -29,9 +34,14 @@ public class TrackCommand extends RequiringClientCommand {
 
         Matcher matcher = parsePattern.matcher(text);
         if (matcher.matches()) {
-            String url = matcher.group("url");
-            client().addLink(chatId, new AddLinkRequest(url));
-            return new SendMessage(chatId, "Link \""+url+"\" added!");
+            String urlString = matcher.group("url");
+            try {
+                URI url = new URI(urlString);
+                client().addLink(chatId, new AddLinkRequest(url));
+                return new SendMessage(chatId, "Link \""+url+"\" added!");
+            } catch (URISyntaxException e) {
+                return new SendMessage(chatId, "Wrong link format, try again!");
+            }
         } 
         
         return new SendMessage(chatId, "Invalid request, usage:\n"+getUsage());

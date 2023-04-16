@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,8 +23,8 @@ import com.pengrad.telegrambot.model.Update;
 
 import ru.asvronsky.bot.botApi.Command;
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.LinkResponse;
-import ru.asvronsky.scrapper.dto.ListLinkResponse;
+import ru.asvronsky.scrapper.dto.controller.LinkResponse;
+import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
 
 @ExtendWith(MockitoExtension.class)
 public class ListCommandTest {
@@ -52,7 +53,6 @@ public class ListCommandTest {
                 .getParameters()
                 .get("text");
         
-
         // then
         assertTrue(listCommand.supports(update));
         assertEquals(expectedMessage, message);
@@ -119,7 +119,7 @@ public class ListCommandTest {
         }
         
         List<LinkResponse> linkResponses = links.stream()
-                    .map(link -> new LinkResponse(chatId, link))
+                    .map(link -> new LinkResponse(chatId, URI.create(link)))
                     .toList();
         return new ListLinkResponse(linkResponses);
     }

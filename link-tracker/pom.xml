@@ -18,11 +18,14 @@
     <lombok.version>1.18.26</lombok.version>
     <spring-context-indexer.version>6.0.6</spring-context-indexer.version>
     <junit.version>4.13.1</junit.version>
-    <revision>1.0-SNAPSHOT</revision>
+    <revision>1.0</revision>
     <maven-surefire.version>3.0.0</maven-surefire.version>
     <jacoco.version>0.8.8</jacoco.version>
     <junit.jupyter.version>5.9.2</junit.jupyter.version>
     <mockito.version>5.2.0</mockito.version>
+    <testcontainers.version>1.18.0</testcontainers.version>
+    <springdoc.openapi.version>2.0.2</springdoc.openapi.version>
+    <maven-flatten.version>1.4.1</maven-flatten.version>
   </properties>
   
   <modules>
@@ -32,6 +35,12 @@
   </modules>
   
   <dependencies>
+    
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc.openapi.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>org.jetbrains</groupId>
@@ -98,6 +107,7 @@
   
   <dependencyManagement>
     <dependencies>
+      
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
@@ -113,6 +123,15 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers-bom</artifactId>
+        <version>${testcontainers.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      
     </dependencies>
   </dependencyManagement>
   
@@ -145,6 +164,9 @@
                 <goal>repackage</goal>
                 <goal>build-info</goal>
               </goals>
+              <configuration>
+                <classifier>exec</classifier>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -194,6 +216,35 @@
         
       </plugins>
     </pluginManagement>
+    
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>${maven-flatten.version}</version>
+        <configuration>
+        </configuration>
+        <executions>
+          <!-- enable flattening -->
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <!-- ensure proper cleanup -->
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   
 </project>

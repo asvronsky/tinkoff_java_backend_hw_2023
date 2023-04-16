@@ -4,7 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.scrapper.dto.GithubResponse;
+import ru.asvronsky.scrapper.dto.client.GithubResponse;
 
 @RequiredArgsConstructor
 public class GithubClient {

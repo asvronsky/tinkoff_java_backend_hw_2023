@@ -1,32 +1,26 @@
 package ru.asvronsky.bot.botApi;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import ru.asvronsky.bot.botApi.commands.HelpCommand;
-import ru.asvronsky.bot.botApi.commands.ListCommand;
-import ru.asvronsky.bot.botApi.commands.StartCommand;
-import ru.asvronsky.bot.botApi.commands.TrackCommand;
+import jakarta.annotation.PostConstruct;
 import ru.asvronsky.bot.botApi.commands.UnknownCommand;
-import ru.asvronsky.bot.botApi.commands.UntrackCommand;
-import ru.asvronsky.bot.clients.ScrapperClient;
 
+@Component
 public class UserMessageProcessorImpl implements UserMessageProcessor {
+
+    @Autowired
     private List<Command> commands;
 
-    public UserMessageProcessorImpl(ScrapperClient scrapperClient) {
-        commands = new ArrayList<>();
-        commands.add(new StartCommand(scrapperClient));
-        commands.add(new TrackCommand(scrapperClient));
-        commands.add(new UntrackCommand(scrapperClient));
-        commands.add(new ListCommand(scrapperClient));
-        commands.add(new HelpCommand(commands()));
+    @PostConstruct
+    public void init() {
         commands.add(new UnknownCommand());
     }
-
 
     @Override
     public List<HelpSupportingCommand> commands() {
