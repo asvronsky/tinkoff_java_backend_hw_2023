@@ -37,6 +37,12 @@
       <version>${revision}</version>
     </dependency>
 
+    <dependency>
+      <groupId>ru.asvronsky</groupId>
+      <artifactId>link-parser</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
