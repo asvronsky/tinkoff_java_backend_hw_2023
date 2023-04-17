@@ -19,7 +19,7 @@ public class StackOverflowClientTest {
     @Test
     public void basicTest() {
         StackOverflowClient stackOverflowClient = StackOverflowClient.create();
-        ListStackOverflowResponse response = stackOverflowClient.getStackOverflowData("1642028");
+        ListStackOverflowResponse response = stackOverflowClient.getStackOverflowData(1642028);
         assertNotNull(response);
         assertNotNull(response.items());
         assertEquals(1, response.items().size());

@@ -16,7 +16,7 @@ public class GithubClientTest {
     @Test
     public void basicTest() {
         GithubClient githubClient = GithubClient.create();
-        GithubResponse response = githubClient.getGihubData("mojombo/grit");
+        GithubResponse response = githubClient.getGihubData("mojombo", "grit");
         assertNotNull(response);
         assertEquals(OffsetDateTime.parse("2007-10-29T14:37:16Z"), response.createdAt());
     }

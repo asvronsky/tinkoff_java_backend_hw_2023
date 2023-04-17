@@ -1,5 +1,8 @@
 package ru.asvronsky.scrapper.clients;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -25,8 +28,12 @@ public class StackOverflowClient {
         return create(API_URL);
     }
 
-    public ListStackOverflowResponse getStackOverflowData(String id, String site) {
-        String path = "/questions/" + id + "?site=" + site;
+    public ListStackOverflowResponse getStackOverflowData(List<Long> questionIds, String site) {
+        String path = "/questions/%s?site=%s".formatted(
+            questionIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(";"))
+        );
         return webClient.get()
             .uri(path)
             .accept(MediaType.APPLICATION_JSON)
@@ -35,7 +42,7 @@ public class StackOverflowClient {
             .block();
     }
 
-    public ListStackOverflowResponse getStackOverflowData(String id) {
-        return getStackOverflowData(id, "stackoverflow");
+    public ListStackOverflowResponse getStackOverflowData(long id) {
+        return getStackOverflowData(List.of(id), "stackoverflow");
     }
 }

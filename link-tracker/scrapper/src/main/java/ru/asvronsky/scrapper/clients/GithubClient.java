@@ -25,8 +25,8 @@ public class GithubClient {
         return create(API_URL);
     }
 
-    public GithubResponse getGihubData(String ownerAndName) {
-        String path = "/repos/" + ownerAndName;
+    public GithubResponse getGihubData(String username, String repo) {
+        String path = "/repos/%s/%s".formatted(username, repo);
         return webClient.get()
                 .uri(path)
                 .accept(MediaType.APPLICATION_JSON)
