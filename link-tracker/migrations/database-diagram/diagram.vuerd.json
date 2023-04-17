@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -111.19999999999943,
-    "scrollLeft": -112.79999999999991,
-    "zoomLevel": 0.9,
+    "scrollTop": -561.5999999999985,
+    "scrollLeft": -505.60937499999875,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -17,7 +17,7 @@
       "columnNotNull": true,
       "relationship": true
     },
-    "database": "MySQL",
+    "database": "PostgreSQL",
     "databaseName": "scrapper",
     "canvasType": "ERD",
     "language": "GraphQL",
@@ -49,7 +49,7 @@
           {
             "name": "id",
             "comment": "",
-            "dataType": "BIGINT",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -70,10 +70,10 @@
             "id": "7fa64e63-1704-4e04-89d1-696e4d0b1559"
           },
           {
-            "name": "url",
+            "name": "updated_at",
             "comment": "",
-            "dataType": "TEXT",
-            "default": "",
+            "dataType": "timestamp with time zone",
+            "default": "now()",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -85,18 +85,18 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 60,
+              "widthName": 67.0634765625,
               "widthComment": 60,
-              "widthDataType": 60,
+              "widthDataType": 148.66259765625,
               "widthDefault": 60
             },
-            "id": "79744801-8919-4591-a879-9a5b7dd5c11a"
+            "id": "17e9babb-4d35-4f5f-908d-e6dcc2e3ec9c"
           },
           {
-            "name": "updated_at",
+            "name": "github_data",
             "comment": "",
-            "dataType": "TIMESTAMP",
-            "default": "now()",
+            "dataType": "json",
+            "default": "",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -108,19 +108,42 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 67.0634765625,
+              "widthName": 69.95166015625,
               "widthComment": 60,
-              "widthDataType": 76.87060546875,
+              "widthDataType": 60,
               "widthDefault": 60
             },
-            "id": "17e9babb-4d35-4f5f-908d-e6dcc2e3ec9c"
+            "id": "42fd1bfd-33ee-4b14-b425-f142469ac2c4"
+          },
+          {
+            "name": "stackoverflow_data",
+            "comment": "",
+            "dataType": "json",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 113.28076171875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "da0f4e64-48cb-458a-b8f5-bd6441254690"
           }
         ],
         "ui": {
           "active": false,
-          "left": 868.8016,
-          "top": 354.2238,
-          "zIndex": 11,
+          "left": 1099.0566,
+          "top": 832.1585,
+          "zIndex": 2,
           "widthName": 60,
           "widthComment": 60
         },
@@ -128,13 +151,13 @@
         "id": "fe13042f-4eb0-4d81-aa14-f16cb20effd1"
       },
       {
-        "name": "chat_link",
+        "name": "subscription",
         "comment": "",
         "columns": [
           {
             "name": "chat_id",
             "comment": "",
-            "dataType": "BIGINT",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -157,7 +180,7 @@
           {
             "name": "link_id",
             "comment": "",
-            "dataType": "BIGINT",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -180,10 +203,10 @@
         ],
         "ui": {
           "active": false,
-          "left": 451.0198,
-          "top": 175.5573,
-          "zIndex": 1,
-          "widthName": 60,
+          "left": 609.6882,
+          "top": 888.0033,
+          "zIndex": 3,
+          "widthName": 71.3671875,
           "widthComment": 60
         },
         "visible": true,
@@ -196,7 +219,7 @@
           {
             "name": "chat_id",
             "comment": "",
-            "dataType": "BIGINT",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -219,9 +242,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 29.3341,
-          "top": 354.7588,
-          "zIndex": 5,
+          "left": 641.1141,
+          "top": 667.5388,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 60
         },
@@ -245,8 +268,8 @@
           "columnIds": [
             "7fa64e63-1704-4e04-89d1-696e4d0b1559"
           ],
-          "x": 868.8016,
-          "y": 419.4738,
+          "x": 1099.0566,
+          "y": 907.6585,
           "direction": "left"
         },
         "end": {
@@ -254,8 +277,8 @@
           "columnIds": [
             "fcba5250-d699-4440-83ef-1804b7ae937c"
           ],
-          "x": 798.0198,
-          "y": 230.5573,
+          "x": 956.6882,
+          "y": 943.0033,
           "direction": "right"
         },
         "constraintName": "fk_link_to_chat-link",
@@ -271,18 +294,18 @@
           "columnIds": [
             "140c1cf8-da2f-45df-9d61-01d9cdcfa5c2"
           ],
-          "x": 376.3341,
-          "y": 399.5088,
-          "direction": "right"
+          "x": 814.6141,
+          "y": 757.0388,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "fa0ed0a8-bb69-41f5-a275-583594a199a5",
           "columnIds": [
             "8a64e482-e4df-4a5c-89d6-62a7490d27e8"
           ],
-          "x": 451.0198,
-          "y": 230.5573,
-          "direction": "left"
+          "x": 783.1882,
+          "y": 888.0033,
+          "direction": "top"
         },
         "constraintName": "fk_chat_to_chat_link",
         "visible": true,

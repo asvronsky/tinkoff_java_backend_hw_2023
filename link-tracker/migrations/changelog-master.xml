@@ -8,5 +8,6 @@
     <include file="01-create-chat-table.sql" />
     <include file="02-create-link-table.sql" />
     <include file="03-create-subscription-table.sql" />
+    <include file="04-add-website-data-to-link-table.sql" />
 
 </databaseChangeLog>

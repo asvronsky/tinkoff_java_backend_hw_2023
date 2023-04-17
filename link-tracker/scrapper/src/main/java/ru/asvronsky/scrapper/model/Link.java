@@ -7,8 +7,9 @@ import lombok.Data;
 @Data
 public class Link {
 
-    private long id;
+    private Long id;
     private String url;
     private LocalDateTime updatedAt;
+    private String websiteData;
 
 }
