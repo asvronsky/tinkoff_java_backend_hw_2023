@@ -60,7 +60,7 @@ public class JdbcLinkService implements LinkService {
 
     @Override
     public List<Link> listAll(long chatId) {
-        return subscriptionRepository.findAll(chatId);
+        return subscriptionRepository.findLinksByChat(chatId);
     }
 
 }
