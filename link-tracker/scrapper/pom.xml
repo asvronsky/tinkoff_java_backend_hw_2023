@@ -13,6 +13,10 @@
   <name>scrapper</name>
   <packaging>jar</packaging>
 
+  <properties>
+    <json.version>20190722</json.version>
+  </properties>
+
   <dependencies>
     
     <dependency>
@@ -66,6 +70,23 @@
       <version>${revision}</version>
     </dependency>
     
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${json.version}</version>
+    </dependency>
   </dependencies>
   
   <build>

@@ -1,5 +1,6 @@
 package ru.asvronsky.scrapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,7 +51,7 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
 
         chatRepository.add(chatId);
         Link addedLink = subscriptionRepository.add(chatId, link);
-        List<Link> subscriptions = subscriptionRepository.findAll(chatId);
+        List<Link> subscriptions = subscriptionRepository.findLinksByChat(chatId);
         Optional<Link> removedLink = subscriptionRepository.remove(chatId, link);
 
         assertEquals("google.com", addedLink.getUrl());
@@ -59,5 +60,26 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
         assertEquals("google.com", removedLink.get().getUrl());
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void findChatsByLink() {
+        Link link = new Link();
+        link.setUrl("google.com");
+        Link anotherLink = new Link();
+        anotherLink.setUrl("twitter.com");
+
+        chatRepository.add(0);
+        chatRepository.add(1);
+        chatRepository.add(2);
+        subscriptionRepository.add(0, link);
+        subscriptionRepository.add(1, link);
+        subscriptionRepository.add(2, anotherLink);
+        List<Integer> subscriptionsLink = subscriptionRepository.findChatsByLink(link);
+        List<Integer> subscriptionsAnotherLink = subscriptionRepository.findChatsByLink(anotherLink);
+        
+        assertThat(subscriptionsLink).hasSameElementsAs(List.of(0, 1));
+        assertThat(subscriptionsAnotherLink).hasSameElementsAs(List.of(2));
+    }
 
 }
