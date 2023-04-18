@@ -1,18 +1,20 @@
 package ru.asvronsky.bot.botApi;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.pengrad.telegrambot.Callback;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeAllPrivateChats;
-import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
+import com.pengrad.telegrambot.response.SendResponse;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,24 @@ public class BotImpl implements Bot {
     private final TelegramBot bot;
 
     @Override
-    public <T extends BaseRequest<T, R>, R extends BaseResponse> void execute(BaseRequest<T, R> request) {
-        bot.execute(request);
+    public void execute(SendMessage request) {
+        bot.execute(request, new Callback<SendMessage, SendResponse>() {
+
+            @Override
+            public void onResponse(SendMessage request, SendResponse response) {
+                
+            }
+
+            @Override
+            public void onFailure(SendMessage request, IOException e) {
+                Object chatId = request.getParameters().get("chat_id");
+                String text = (String) request.getParameters().get("text");
+                String logMessage = "Error while sending message. "
+                    + "chatid=%s, message=%s".formatted(chatId, text);
+                log.error(logMessage);
+            }
+            
+        });
     }
 
     @Override
