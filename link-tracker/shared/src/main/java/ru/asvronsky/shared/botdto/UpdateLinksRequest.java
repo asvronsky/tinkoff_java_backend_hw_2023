@@ -7,6 +7,6 @@ public record UpdateLinksRequest(
     Long id, 
     URI url, 
     String description, 
-    List<Long> ids) {
+    List<Long> chatIds) {
 
 }

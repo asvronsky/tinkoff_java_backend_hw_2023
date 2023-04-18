@@ -75,11 +75,11 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
         subscriptionRepository.add(0, link);
         subscriptionRepository.add(1, link);
         subscriptionRepository.add(2, anotherLink);
-        List<Integer> subscriptionsLink = subscriptionRepository.findChatsByLink(link);
-        List<Integer> subscriptionsAnotherLink = subscriptionRepository.findChatsByLink(anotherLink);
+        List<Long> subscriptionsLink = subscriptionRepository.findChatsByLink(link);
+        List<Long> subscriptionsAnotherLink = subscriptionRepository.findChatsByLink(anotherLink);
         
-        assertThat(subscriptionsLink).hasSameElementsAs(List.of(0, 1));
-        assertThat(subscriptionsAnotherLink).hasSameElementsAs(List.of(2));
+        assertThat(subscriptionsLink).hasSameElementsAs(List.of(0L, 1L));
+        assertThat(subscriptionsAnotherLink).hasSameElementsAs(List.of(2L));
     }
 
 }
