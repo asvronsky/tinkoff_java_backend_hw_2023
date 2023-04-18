@@ -19,7 +19,6 @@ import ru.asvronsky.scrapper.model.Link;
 public class JdbcSubscriptionDao implements SubscriptionDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    // private final TransactionTemplate transactionTemplate;
 
     private final RowMapper<Link> rowMapper = new DataClassRowMapper<>(Link.class);
 
@@ -90,7 +89,7 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
     }
 
     @Override
-    public List<Integer> findChatsByLink(Link link) {
+    public List<Long> findChatsByLink(Link link) {
         String sqlFindChatsByUrl = """
                 select chat_id
                 from subscription s, link l
@@ -107,7 +106,7 @@ public class JdbcSubscriptionDao implements SubscriptionDao {
         return jdbcTemplate.queryForList(
             useSql,
             new BeanPropertySqlParameterSource(link),
-            Integer.class
+            Long.class
         );
     }
     

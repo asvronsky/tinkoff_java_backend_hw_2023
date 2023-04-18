@@ -10,6 +10,6 @@ public interface SubscriptionDao {
     public Link add(long chatId, Link link);
     public Optional<Link> remove(long chatId, Link link);
     public List<Link> findLinksByChat(long chatId);
-    public List<Integer> findChatsByLink(Link link);
+    public List<Long> findChatsByLink(Link link);
     
 }

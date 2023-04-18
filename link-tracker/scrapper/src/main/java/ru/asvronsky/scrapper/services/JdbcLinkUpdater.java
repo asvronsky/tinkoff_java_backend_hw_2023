@@ -1,8 +1,11 @@
 package ru.asvronsky.scrapper.services;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,10 +17,13 @@ import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
 import ru.asvronsky.linkparser.Parsers.Parser;
+import ru.asvronsky.scrapper.clients.BotClient;
 import ru.asvronsky.scrapper.clients.GithubClient;
 import ru.asvronsky.scrapper.clients.StackOverflowClient;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.LinkDao;
+import ru.asvronsky.scrapper.repository.SubscriptionDao;
+import ru.asvronsky.shared.botdto.UpdateLinksRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +31,10 @@ public class JdbcLinkUpdater implements LinkUpdater {
 
     private final GithubClient githubClient;
     private final StackOverflowClient stackOverflowClient;
+    private final BotClient botClient;
     
     private final LinkDao linkRepository;
+    private final SubscriptionDao subscriptionRepository;
 
     private final Parser parser;
 
@@ -38,9 +46,13 @@ public class JdbcLinkUpdater implements LinkUpdater {
         List<Link> outdatedLinks = linkRepository.findOutdated(offset);
 
         for (Link link : outdatedLinks) {
-            ParserResult parserResult = parser.parse(URI.create(link.getUrl()))
-                .orElseThrow(() -> new IllegalStateException("DB link not parseable %s".formatted(link.getUrl())));
-
+            ParserResult parserResult;
+            try {
+                parserResult = parser.parse(new URI(link.getUrl()))
+                    .orElseThrow(() -> new IllegalStateException("DB link not parseable %s".formatted(link.getUrl())));
+            } catch (URISyntaxException e) {
+                throw new IllegalStateException("DB link not URI parseable %s".formatted(link.getUrl()));
+            }
             Object clientResponse = switch (parserResult) {
                 case GithubParserResult result ->
                     githubClient.getGihubData(
@@ -54,13 +66,19 @@ public class JdbcLinkUpdater implements LinkUpdater {
                 default -> null;
             };
 
-            passToNotifier(link, clientResponse);
+            Optional.of(getUpdatedTags(link, clientResponse))
+                .ifPresent(tags -> {
+                    String message = generateMessage(link, tags);
+                    List<Long> chatIds = subscriptionRepository.findChatsByLink(link);
+                    UpdateLinksRequest request = generateRequest(link, message, chatIds);
+                    botClient.sendNotification(request);
+                });
         }
     }
 
-    private void passToNotifier(Link link, Object websiteData) {
+    private List<String> getUpdatedTags(Link link, Object websiteData) {
         if (websiteData == null)
-            return;
+            return null;
 
         try {
             link.setWebsiteData(mapper.writeValueAsString(websiteData));
@@ -72,7 +90,24 @@ public class JdbcLinkUpdater implements LinkUpdater {
             );
         }
 
-        List<String> updatedTags = linkRepository.update(link);
+        return linkRepository.update(link);
+    }
+    
+    private String generateMessage(Link link, List<String> tags) {
+        return "Link: \"%s\"\n".formatted(link.getUrl())
+            + "Updated tags:\n"
+            + tags.stream()
+                .map(str -> "\t" + str)
+                .collect(Collectors.joining("\n"));
+    }
+
+    private UpdateLinksRequest generateRequest(Link link, String message, List<Long> chatIds) {
+        return new UpdateLinksRequest(
+            link.getId(), 
+            URI.create(link.getUrl()), 
+            message, 
+            chatIds
+        );
     }
     
 }
