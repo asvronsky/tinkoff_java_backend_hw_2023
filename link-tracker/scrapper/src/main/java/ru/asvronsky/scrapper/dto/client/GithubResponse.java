@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record GithubResponse(
-    @JsonProperty("created_at") OffsetDateTime createdAt
+    @JsonProperty("pushed_at") OffsetDateTime createdAt
 ) {
     
 }

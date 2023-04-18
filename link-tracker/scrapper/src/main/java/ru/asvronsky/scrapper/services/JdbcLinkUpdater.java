@@ -4,13 +4,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
@@ -38,7 +39,9 @@ public class JdbcLinkUpdater implements LinkUpdater {
 
     private final Parser parser;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper()
+        .registerModule(new JavaTimeModule())
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     
 
     @Override
@@ -66,19 +69,19 @@ public class JdbcLinkUpdater implements LinkUpdater {
                 default -> null;
             };
 
-            Optional.of(getUpdatedTags(link, clientResponse))
-                .ifPresent(tags -> {
-                    String message = generateMessage(link, tags);
-                    List<Long> chatIds = subscriptionRepository.findChatsByLink(link);
-                    UpdateLinksRequest request = generateRequest(link, message, chatIds);
-                    botClient.sendNotification(request);
-                });
+            List<String> updatedTags = getUpdatedTags(link, clientResponse);
+            if (!updatedTags.isEmpty()) {
+                String message = generateMessage(link, updatedTags);
+                List<Long> chatIds = subscriptionRepository.findChatsByLink(link);
+                UpdateLinksRequest request = generateRequest(link, message, chatIds);
+                botClient.sendNotification(request);
+            }
         }
     }
 
     private List<String> getUpdatedTags(Link link, Object websiteData) {
         if (websiteData == null)
-            return null;
+            return List.of();
 
         try {
             link.setWebsiteData(mapper.writeValueAsString(websiteData));
