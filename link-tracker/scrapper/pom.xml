@@ -21,7 +21,7 @@
 
     <dependency>
       <groupId>ru.asvronsky</groupId>
-      <artifactId>bot</artifactId>
+      <artifactId>shared</artifactId>
       <version>${revision}</version>
     </dependency>
     

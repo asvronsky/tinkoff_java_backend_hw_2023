@@ -14,11 +14,11 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
 import ru.asvronsky.bot.exceptions.ScrapperResponseException;
-import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
-import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
+import ru.asvronsky.shared.scrapperdto.AddLinkRequest;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.ListLinkResponse;
+import ru.asvronsky.shared.scrapperdto.RemoveLinkRequest;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @RequiredArgsConstructor
 @Slf4j

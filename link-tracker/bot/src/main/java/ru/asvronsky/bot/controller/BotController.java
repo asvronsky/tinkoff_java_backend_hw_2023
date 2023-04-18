@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.bot.dto.ApiErrorResponse;
-import ru.asvronsky.bot.dto.UpdateLinksRequest;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
+import ru.asvronsky.shared.botdto.UpdateLinksRequest;
 import ru.asvronsky.bot.services.BotService;
 
 @RestController

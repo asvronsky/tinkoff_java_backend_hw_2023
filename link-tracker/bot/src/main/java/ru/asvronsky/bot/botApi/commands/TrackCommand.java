@@ -15,7 +15,7 @@ import ru.asvronsky.bot.botApi.ClientResponseHandler;
 import ru.asvronsky.bot.clients.ScrapperClient;
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 import ru.asvronsky.linkparser.Parsers.Parser;
-import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
+import ru.asvronsky.shared.scrapperdto.AddLinkRequest;
 
 @Component
 public class TrackCommand extends RequiringClientCommand {

@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
-import ru.asvronsky.bot.dto.UpdateLinksRequest;
-import ru.asvronsky.bot.exceptions.ScrapperResponseException;
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.scrapper.exceptions.BotResponseException;
+import ru.asvronsky.shared.botdto.UpdateLinksRequest;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,7 +23,7 @@ public class BotClient {
     private final String updatesPath = "/updates";
     private final RetryBackoffSpec retrySpec = Retry
             .fixedDelay(3, Duration.ofSeconds(2))
-            .filter(e -> !(e instanceof ScrapperResponseException))
+            .filter(e -> !(e instanceof BotResponseException))
             .doAfterRetry(signal -> log.info("Retry number {}", signal.totalRetries()));
 
     private final WebClient webClient;
@@ -59,8 +59,8 @@ public class BotClient {
                 return clientResponse
                     .bodyToMono(ApiErrorResponse.class)
                     .flatMap(apiResponse -> {
-                        log.info("Scrapper error response: " + apiResponse);
-                        return Mono.error(new ScrapperResponseException(apiResponse));
+                        log.info("Bot error response: " + apiResponse);
+                        return Mono.error(new BotResponseException(apiResponse));
                     });
             }
             return Mono.just(clientResponse);

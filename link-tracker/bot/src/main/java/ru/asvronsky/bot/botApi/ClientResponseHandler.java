@@ -3,7 +3,7 @@ package ru.asvronsky.bot.botApi;
 import java.util.function.Supplier;
 
 import ru.asvronsky.bot.exceptions.ScrapperResponseException;
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 public class ClientResponseHandler {
     private Supplier<String> onBadRequest = () -> null;

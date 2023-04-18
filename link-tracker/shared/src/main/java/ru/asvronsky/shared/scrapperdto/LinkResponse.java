@@ -1,4 +1,4 @@
-package ru.asvronsky.scrapper.dto.controller;
+package ru.asvronsky.shared.scrapperdto;
 
 import java.net.URI;
 

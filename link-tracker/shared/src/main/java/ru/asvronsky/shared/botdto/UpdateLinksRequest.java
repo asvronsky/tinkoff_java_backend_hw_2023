@@ -1,4 +1,4 @@
-package ru.asvronsky.bot.dto;
+package ru.asvronsky.shared.botdto;
 
 import java.net.URI;
 import java.util.List;

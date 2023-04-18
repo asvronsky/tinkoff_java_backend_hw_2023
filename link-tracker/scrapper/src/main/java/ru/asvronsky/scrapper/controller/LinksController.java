@@ -5,12 +5,12 @@ import java.net.URI;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
-import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.services.LinkService;
+import ru.asvronsky.shared.scrapperdto.AddLinkRequest;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.ListLinkResponse;
+import ru.asvronsky.shared.scrapperdto.RemoveLinkRequest;
 
 @RestController
 @RequiredArgsConstructor

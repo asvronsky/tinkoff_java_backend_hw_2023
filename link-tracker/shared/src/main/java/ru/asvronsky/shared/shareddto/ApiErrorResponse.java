@@ -1,4 +1,4 @@
-package ru.asvronsky.bot.dto;
+package ru.asvronsky.shared.shareddto;
 
 import java.util.List;
 
