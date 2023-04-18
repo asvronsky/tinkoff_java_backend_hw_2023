@@ -16,7 +16,7 @@ public record ApplicationConfig(@NotNull String test, Scheduler scheduler) {
         return config.scheduler().interval().toMillis();
     }
 
-    final record Scheduler(Duration interval) {
+    public final record Scheduler(Duration interval) {
 
     }
 }
