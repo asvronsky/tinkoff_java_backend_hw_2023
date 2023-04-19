@@ -1,6 +1,7 @@
 package ru.asvronsky.scrapper.clients;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,22 @@ public class GithubClient {
 
     private final WebClient webClient;
 
-    public static GithubClient create(String baseUrl) {
+    public static GithubClient create(String baseUrl, String token) {
         WebClient webClient = WebClient.builder()
+                .filter((request, next) -> {
+                    ClientRequest newRequest = ClientRequest.from(request)
+                            .header("Authorization", "Bearer %s".formatted(token))
+                            .build();
+                    return next.exchange(newRequest);
+                })
                 .baseUrl(baseUrl)
                 .build();
         
         return new GithubClient(webClient);
     }
     
-    public static GithubClient create() {
-        return create(API_URL);
+    public static GithubClient create(String apiToken) {
+        return create(API_URL, apiToken);
     }
 
     public GithubResponse getGihubData(String username, String repo) {
