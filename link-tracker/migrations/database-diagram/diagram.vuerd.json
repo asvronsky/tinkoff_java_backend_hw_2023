@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -561.5999999999985,
-    "scrollLeft": -505.60937499999875,
-    "zoomLevel": 0.8,
+    "scrollTop": -565.5999999999983,
+    "scrollLeft": -580.8093749999988,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -93,9 +93,9 @@
             "id": "17e9babb-4d35-4f5f-908d-e6dcc2e3ec9c"
           },
           {
-            "name": "github_data",
+            "name": "website_data",
             "comment": "",
-            "dataType": "json",
+            "dataType": "jsonb",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -108,42 +108,19 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 69.95166015625,
+              "widthName": 78.60986328125,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
             },
             "id": "42fd1bfd-33ee-4b14-b425-f142469ac2c4"
-          },
-          {
-            "name": "stackoverflow_data",
-            "comment": "",
-            "dataType": "json",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 113.28076171875,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "da0f4e64-48cb-458a-b8f5-bd6441254690"
           }
         ],
         "ui": {
           "active": false,
           "left": 1099.0566,
           "top": 832.1585,
-          "zIndex": 2,
+          "zIndex": 3,
           "widthName": 60,
           "widthComment": 60
         },
@@ -205,7 +182,7 @@
           "active": false,
           "left": 609.6882,
           "top": 888.0033,
-          "zIndex": 3,
+          "zIndex": 2,
           "widthName": 71.3671875,
           "widthComment": 60
         },
@@ -269,7 +246,7 @@
             "7fa64e63-1704-4e04-89d1-696e4d0b1559"
           ],
           "x": 1099.0566,
-          "y": 907.6585,
+          "y": 897.4085,
           "direction": "left"
         },
         "end": {
