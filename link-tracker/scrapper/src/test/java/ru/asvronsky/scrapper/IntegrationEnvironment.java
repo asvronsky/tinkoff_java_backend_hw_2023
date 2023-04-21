@@ -25,12 +25,14 @@ import liquibase.resource.DirectoryResourceAccessor;
 @Testcontainers
 public abstract class IntegrationEnvironment {
     
-    @Container
     static final PostgreSQLContainer<?> POSTGRES;
 
     static {
         POSTGRES = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("scrapper");
+            .withDatabaseName("scrapper")
+            .withUsername("admin")
+            .withPassword("admin")
+            .withReuse(true);
         POSTGRES.start();
         
         runMigrations();

@@ -9,26 +9,36 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import jakarta.annotation.PostConstruct;
 import ru.asvronsky.scrapper.model.Chat;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.ChatDao;
+import ru.asvronsky.scrapper.repository.JdbcChatDao;
+import ru.asvronsky.scrapper.repository.JdbcSubscriptionDao;
 import ru.asvronsky.scrapper.repository.SubscriptionDao;
 
-@SpringBootTest
+@JdbcTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class JdbcSubscriptionTest extends IntegrationEnvironment{
 
     @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
     private SubscriptionDao subscriptionRepository;
-    @Autowired
     private ChatDao chatRepository;
 
+    @PostConstruct
+    public void setup() {
+        subscriptionRepository = new JdbcSubscriptionDao(jdbcTemplate);
+        chatRepository = new JdbcChatDao(jdbcTemplate);
+    }
+
     @Test
-    @Transactional
-    @Rollback
     public void addAndRemoveOneChatTest() {
         long chatId = 0;
 
@@ -42,8 +52,6 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void subscribeOneChatTest() {
         long chatId = 0;
         Link link = new Link();
@@ -61,8 +69,6 @@ public class JdbcSubscriptionTest extends IntegrationEnvironment{
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void findChatsByLink() {
         Link link = new Link();
         link.setUrl("google.com");

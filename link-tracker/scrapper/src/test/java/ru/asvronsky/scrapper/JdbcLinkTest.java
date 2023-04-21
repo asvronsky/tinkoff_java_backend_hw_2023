@@ -1,35 +1,46 @@
 package ru.asvronsky.scrapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import jakarta.annotation.PostConstruct;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.ChatDao;
+import ru.asvronsky.scrapper.repository.JdbcChatDao;
+import ru.asvronsky.scrapper.repository.JdbcLinkDao;
+import ru.asvronsky.scrapper.repository.JdbcSubscriptionDao;
 import ru.asvronsky.scrapper.repository.LinkDao;
 import ru.asvronsky.scrapper.repository.SubscriptionDao;
 
-@SpringBootTest
+@JdbcTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class JdbcLinkTest extends IntegrationEnvironment{
 
     @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
     private SubscriptionDao subscriptionRepository;
-    @Autowired
     private ChatDao chatRepository;
-    @Autowired
     private LinkDao linkRepository;
 
+    @PostConstruct
+    public void setup() {
+        subscriptionRepository = new JdbcSubscriptionDao(jdbcTemplate);
+        chatRepository = new JdbcChatDao(jdbcTemplate);
+        linkRepository = new JdbcLinkDao(jdbcTemplate);
+    }
+
     @Test
-    @Transactional
-    @Rollback
     public void findOutdated_OneLink() throws InterruptedException {
         long chatId = 0;
         Link link = new Link();
@@ -45,9 +56,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     }
 
     @Test
-    @Transactional
-    @Rollback
-    public void update_LinkWithNullWebsiteData() throws InterruptedException {
+    public void update_LinkWithNullWebsiteData() {
         long chatId = 0;
         Link link = new Link();
         link.setUrl("google.com");
@@ -62,9 +71,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     }
 
     @Test
-    @Transactional
-    @Rollback
-    public void update_ReplaceNonNullData() throws InterruptedException {
+    public void update_ReplaceNonNullData() {
         long chatId = 0;
         Link link = new Link();
         link.setUrl("google.com");
