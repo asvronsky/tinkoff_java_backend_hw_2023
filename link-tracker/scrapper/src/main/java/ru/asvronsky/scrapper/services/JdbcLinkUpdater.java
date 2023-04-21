@@ -89,6 +89,7 @@ public class JdbcLinkUpdater implements LinkUpdater {
                 String message = generateNotExistingLinkMessage(link);
                 UpdateLinksRequest request = generateRequest(link, message, chatIds);
                 botClient.sendNotification(request);
+                linkRepository.remove(link);
             }
 
             List<String> updatedTags = getUpdatedTags(link, clientResponse);
