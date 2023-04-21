@@ -59,7 +59,9 @@ public class BotImpl implements Bot {
             log.info("incoming update #" + update.updateId());
             SendMessage msg = processHandler(update);
         
-            execute(msg);
+            if (msg != null) {
+                execute(msg);
+            }
             lastUpdate = update.updateId();
             log.info("served update #" + update.updateId());
         }
@@ -75,8 +77,12 @@ public class BotImpl implements Bot {
             e.printStackTrace();
         }
 
-        long chatId = update.message().chat().id();
-        return new SendMessage(chatId, "Oops! Error");
+        if (update.message() != null) { 
+            long chatId = update.message().chat().id();
+            return new SendMessage(chatId, "Oops! Error");
+        }
+        log.error("Update #{} message was null", update.updateId());
+        return null;
     } 
 
     @Override
