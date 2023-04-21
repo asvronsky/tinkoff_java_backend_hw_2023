@@ -4,3 +4,4 @@ access_token.txt
 .flattened-pom.xml
 github_api_token.txt
 stackoverflow_api_token.txt
+~/vault

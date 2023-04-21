@@ -1,0 +1,6 @@
+server.port: 8081
+spring.application.name: bot
+spring.cloud.vault:
+    uri: http://localhost:8200
+    token: ${VAULT_TOKEN}
+spring.config.import: 'vault://'
