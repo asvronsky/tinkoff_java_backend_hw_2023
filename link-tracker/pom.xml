@@ -144,7 +144,6 @@
         <groupId>com.squareup.okhttp3</groupId>
         <artifactId>okhttp</artifactId>
         <version>${okhttp.version}</version>
-        <scope>test</scope>
       </dependency>
       
       <dependency>
@@ -177,6 +176,8 @@
                 <artifactId>lombok</artifactId>
               </exclude>
             </excludes>
+
+            <jvmArguments>--enable-preview</jvmArguments>
             
           </configuration>
           
