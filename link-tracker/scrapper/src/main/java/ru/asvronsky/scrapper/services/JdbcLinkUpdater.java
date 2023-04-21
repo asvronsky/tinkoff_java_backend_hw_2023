@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
@@ -28,6 +29,7 @@ import ru.asvronsky.shared.botdto.UpdateLinksRequest;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class JdbcLinkUpdater implements LinkUpdater {
 
     private final GithubClient githubClient;
@@ -56,23 +58,42 @@ public class JdbcLinkUpdater implements LinkUpdater {
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("DB link not URI parseable %s".formatted(link.getUrl()));
             }
+
             Object clientResponse = switch (parserResult) {
                 case GithubParserResult result ->
                     githubClient.getGihubData(
                         result.getUsername(), 
                         result.getRepo()
                     );
-                case StackOverflowParserResult result ->
-                    stackOverflowClient.getStackOverflowData(
+                
+                case StackOverflowParserResult result -> {
+                    var response = stackOverflowClient.getStackOverflowData(
                         result.getId()
                     );
-                default -> null;
+                    if (!response.isPresent()) {
+                        log.info("Stackoverflow client returned null, link {} will be removed", link.getUrl());
+                        yield null;
+                    }
+                    yield response.get();
+                }
+
+                default ->
+                    throw new IllegalStateException(
+                        "Parser result of link %s is not recognized".formatted(link.getUrl())
+                    );
             };
+
+            List<Long> chatIds = subscriptionRepository.findChatsByLink(link);
+
+            if (clientResponse == null) {
+                String message = generateNotExistingLinkMessage(link);
+                UpdateLinksRequest request = generateRequest(link, message, chatIds);
+                botClient.sendNotification(request);
+            }
 
             List<String> updatedTags = getUpdatedTags(link, clientResponse);
             if (!updatedTags.isEmpty()) {
-                String message = generateMessage(link, updatedTags);
-                List<Long> chatIds = subscriptionRepository.findChatsByLink(link);
+                String message = generateUpdatedTagsMessage(link, updatedTags);
                 UpdateLinksRequest request = generateRequest(link, message, chatIds);
                 botClient.sendNotification(request);
             }
@@ -96,12 +117,16 @@ public class JdbcLinkUpdater implements LinkUpdater {
         return linkRepository.update(link);
     }
     
-    private String generateMessage(Link link, List<String> tags) {
+    private String generateUpdatedTagsMessage(Link link, List<String> tags) {
         return "Link: \"%s\"\n".formatted(link.getUrl())
             + "Updated tags:\n"
             + tags.stream()
                 .map(str -> "\t" + str)
                 .collect(Collectors.joining("\n"));
+    }
+
+    private String generateNotExistingLinkMessage(Link link) {
+        return "Content of \"%s\" no longer exists, the link will be deleted".formatted(link.getUrl());
     }
 
     private UpdateLinksRequest generateRequest(Link link, String message, List<Long> chatIds) {

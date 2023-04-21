@@ -2,9 +2,12 @@ package ru.asvronsky.scrapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +52,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
         Link addedLink = subscriptionRepository.add(chatId, link);
         Thread.sleep(1000);
 
-        List<Link> outdated =  linkRepository.findOutdated(Duration.ofMillis(200));
+        List<Link> outdated = linkRepository.findOutdated(Duration.ofMillis(200));
 
         assertEquals(1, outdated.size());
         assertEquals(addedLink.getId(), outdated.get(0).getId());
@@ -88,5 +91,32 @@ public class JdbcLinkTest extends IntegrationEnvironment{
         assertThat(List.of("b")).hasSameElementsAs(diff);
     }
 
+    @Test
+    public void delete_Link() {
+        long chatId = 0;
+        Link link = new Link();
+        link.setUrl("google.com");
+        chatRepository.add(chatId);
+        Link addedLink = subscriptionRepository.add(chatId, link);
 
+        Optional<Link> deletedLink = linkRepository.remove(addedLink);
+
+        assertTrue(deletedLink.isPresent());
+        assertEquals("google.com", deletedLink.get().getUrl());
+    }
+
+    @Test
+    public void delete_NotExistingLink() {
+        long chatId = 0;
+        Link link = new Link();
+        link.setUrl("google.com");
+        chatRepository.add(chatId);
+        subscriptionRepository.add(chatId, link);
+        Link notExistingLink = new Link();
+        notExistingLink.setUrl("whassup.com");
+
+        Optional<Link> deletedLink = linkRepository.remove(notExistingLink);
+
+        assertFalse(deletedLink.isPresent());
+    }
 }
