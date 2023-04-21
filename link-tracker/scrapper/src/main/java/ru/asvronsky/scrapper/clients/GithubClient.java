@@ -5,9 +5,11 @@ import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.asvronsky.scrapper.dto.client.GithubResponse;
 
 @RequiredArgsConstructor
+@Slf4j
 public class GithubClient {
 
     private static final String API_URL = "https://api.github.com";
@@ -21,6 +23,10 @@ public class GithubClient {
                             .header("Authorization", "Bearer %s".formatted(token))
                             .build();
                     return next.exchange(newRequest);
+                })
+                .filter((request, next) -> {
+                    log.debug("Executing: " + request.url());
+                    return next.exchange(request);
                 })
                 .baseUrl(baseUrl)
                 .build();
