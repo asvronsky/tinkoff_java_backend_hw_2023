@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public final class StackOverflowParserResult extends ParserResult {
-    private String id;
+    private long id;
 }

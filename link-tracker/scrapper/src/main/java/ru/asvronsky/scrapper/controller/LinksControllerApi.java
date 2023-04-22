@@ -12,12 +12,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
-import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
+import ru.asvronsky.shared.scrapperdto.AddLinkRequest;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.ListLinkResponse;
+import ru.asvronsky.shared.scrapperdto.RemoveLinkRequest;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @RequestMapping("/links")
 public interface LinksControllerApi {

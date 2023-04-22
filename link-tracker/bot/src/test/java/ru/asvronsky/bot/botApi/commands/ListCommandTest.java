@@ -23,8 +23,8 @@ import com.pengrad.telegrambot.model.Update;
 
 import ru.asvronsky.bot.botApi.Command;
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
-import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.ListLinkResponse;
 
 @ExtendWith(MockitoExtension.class)
 public class ListCommandTest {

@@ -6,4 +6,8 @@ public class InvalidRequestFormatException extends RestResponseException{
         super(message);
     }
 
+    public InvalidRequestFormatException(String message, Exception cause) {
+        super(message, cause);
+    }
+
 }

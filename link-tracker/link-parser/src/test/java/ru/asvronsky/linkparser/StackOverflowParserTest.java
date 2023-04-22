@@ -2,6 +2,8 @@ package ru.asvronsky.linkparser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.Test;
 
 import ru.asvronsky.linkparser.ParserResults.StackOverflowParserResult;
@@ -9,42 +11,42 @@ import ru.asvronsky.linkparser.Parsers.Parser;
 import ru.asvronsky.linkparser.Parsers.StackOverflowParser;
 
 public class StackOverflowParserTest {
-    private Parser stackOverflowParser = new StackOverflowParser(null);
+    private Parser stackOverflowParser = new StackOverflowParser();
     
     @Test
     public void NoSubdirectories()
     {
-        String stackOverflowUrl = "https://stackoverflow.com/questions/1642028";
+        URI stackOverflowUrl = URI.create("https://stackoverflow.com/questions/1642028");
         assertEquals(
-            new StackOverflowParserResult("1642028"), 
-            stackOverflowParser.parse(stackOverflowUrl)
+            new StackOverflowParserResult(1642028), 
+            stackOverflowParser.parse(stackOverflowUrl).get()
         );
     }
 
     @Test
     public void WithSubdirectories() {
-        String stackOverflowUrl = "https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c";
+        URI stackOverflowUrl = URI.create("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
         assertEquals(
-            new StackOverflowParserResult("1642028"), 
-            stackOverflowParser.parse(stackOverflowUrl)
+            new StackOverflowParserResult(1642028), 
+            stackOverflowParser.parse(stackOverflowUrl).get()
         );;
     }
 
     @Test
     public void TrailingSlash() {
-        String stackOverflowUrl = "https://stackoverflow.com/questions/1642028/";
+        URI stackOverflowUrl = URI.create("https://stackoverflow.com/questions/1642028/");
         assertEquals(
-            new StackOverflowParserResult("1642028"), 
-            stackOverflowParser.parse(stackOverflowUrl)
+            new StackOverflowParserResult(1642028), 
+            stackOverflowParser.parse(stackOverflowUrl).get()
         );
     }
 
     @Test
     public void NoHttps() {
-        String stackOverflowUrl = "stackoverflow.com/questions/1642028/";
+        URI stackOverflowUrl = URI.create("stackoverflow.com/questions/1642028/");
         assertEquals(
-            new StackOverflowParserResult("1642028"), 
-            stackOverflowParser.parse(stackOverflowUrl)
+            new StackOverflowParserResult(1642028), 
+            stackOverflowParser.parse(stackOverflowUrl).get()
         );
     } 
     
