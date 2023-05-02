@@ -10,8 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @RequestMapping("/tg-chat")
 public interface TgChatControllerApi {

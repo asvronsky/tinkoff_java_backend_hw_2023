@@ -14,11 +14,11 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
 import ru.asvronsky.bot.exceptions.ScrapperResponseException;
-import ru.asvronsky.scrapper.dto.controller.AddLinkRequest;
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
-import ru.asvronsky.scrapper.dto.controller.ListLinkResponse;
-import ru.asvronsky.scrapper.dto.controller.RemoveLinkRequest;
+import ru.asvronsky.shared.scrapperdto.AddLinkRequest;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.ListLinkResponse;
+import ru.asvronsky.shared.scrapperdto.RemoveLinkRequest;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -101,12 +101,17 @@ public class ScrapperClient {
     
 
     private static ExchangeFilterFunction apiErrorResponseToError() {
-        return ExchangeFilterFunction.ofResponseProcessor(response -> {
-            if (response.statusCode().is4xxClientError()) {
-                ApiErrorResponse apiResponse = response.bodyToMono(ApiErrorResponse.class).block();
-                return Mono.error(new ScrapperResponseException(apiResponse));
+        return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+            if (clientResponse.statusCode().is4xxClientError()) {
+                
+                return clientResponse
+                    .bodyToMono(ApiErrorResponse.class)
+                    .flatMap(apiResponse -> {
+                        log.info("Scrapper error response: " + apiResponse);
+                        return Mono.error(new ScrapperResponseException(apiResponse));
+                    });
             }
-            return Mono.just(response);
+            return Mono.just(clientResponse);
         });
     }
 }

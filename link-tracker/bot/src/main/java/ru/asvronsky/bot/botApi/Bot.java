@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.BaseRequest;
-import com.pengrad.telegrambot.response.BaseResponse;
+import com.pengrad.telegrambot.request.SendMessage;
 
 public interface Bot extends AutoCloseable, UpdatesListener {
-    <T extends BaseRequest<T, R>, R extends BaseResponse> void execute(BaseRequest<T, R> request);
+    
+    @Override
+    public int process(List<Update> updates);
+    
+    public void execute(SendMessage request);
+
+    public void start();
 
     @Override
-    int process(List<Update> updates);
-
-    void start();
-
-    @Override
-    void close();
+    public void close();
 }

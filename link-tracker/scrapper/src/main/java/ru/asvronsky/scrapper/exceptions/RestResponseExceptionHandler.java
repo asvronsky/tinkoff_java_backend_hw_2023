@@ -2,13 +2,14 @@ package ru.asvronsky.scrapper.exceptions;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import ru.asvronsky.scrapper.dto.controller.ApiErrorResponse;
+import ru.asvronsky.shared.shareddto.ApiErrorResponse;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler {

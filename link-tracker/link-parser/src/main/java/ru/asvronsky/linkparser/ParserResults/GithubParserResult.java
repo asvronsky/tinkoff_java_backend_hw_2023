@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public final class GithubParserResult extends ParserResult {
-    private String user;
-    private String repository;
+    private String username;
+    private String repo;
 }

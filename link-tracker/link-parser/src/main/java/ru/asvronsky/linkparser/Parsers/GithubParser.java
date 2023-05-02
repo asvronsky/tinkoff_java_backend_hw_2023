@@ -1,36 +1,29 @@
 package ru.asvronsky.linkparser.Parsers;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.URI;
+import java.nio.file.Path;
+import java.util.Optional;
 
 import ru.asvronsky.linkparser.ParserResults.GithubParserResult;
 import ru.asvronsky.linkparser.ParserResults.ParserResult;
 
-public final class GithubParser extends Parser {
-    /**
-     * first group: user
-     * second group: name of repository
-     */
-    private final static Pattern userAndRepoPattern = Pattern.compile(
-        "^(?>https://)?github\\.com/(?<user>.+?)/(?<repo>.+?)(?>/.*)?$"
-    );
-
-    public GithubParser(Parser successor) {
-        super(successor);
-    }
+public class GithubParser implements Parser {
 
     @Override
-    public ParserResult parse(String url) {
-        
-        
-        Matcher userAndRepoMatcher = userAndRepoPattern.matcher(url);
-        if (userAndRepoMatcher.matches()) {
-            String user = userAndRepoMatcher.group("user");
-            String repo = userAndRepoMatcher.group("repo");
-            return new GithubParserResult(user, repo);
-        } else {
-            return super.parse(url);
+    public Optional<ParserResult> parse(URI url) {
+        Path path = Path.of(url.getSchemeSpecificPart().toString());
+        if (path.getName(0).toString().equals("github.com")) {
+            if (path.getNameCount() >= 3) {
+                String username = path.getName(1).toString();
+                String repo = path.getName(2).toString();
+                var result = new GithubParserResult(username, repo);
+                result.setNormalizedLink(
+                    URI.create("github.com/%s/%s".formatted(username, repo))
+                );
+                return Optional.of(result);
+            }
         }
+        return Optional.empty();
     }
     
 }

@@ -10,7 +10,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import ru.asvronsky.bot.clients.ScrapperClient;
-import ru.asvronsky.scrapper.dto.controller.LinkResponse;
+import ru.asvronsky.shared.scrapperdto.LinkResponse;
 
 @Component
 public class ListCommand extends RequiringClientCommand {

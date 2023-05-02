@@ -3,14 +3,19 @@ package ru.asvronsky.scrapper.scheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import ru.asvronsky.scrapper.configuration.ApplicationConfig;
+import ru.asvronsky.scrapper.services.LinkUpdater;
 
-@Slf4j
 @Service
+@RequiredArgsConstructor
 public class LinkUpdaterScheduler {
+    
+    private final LinkUpdater linkUpdater;
+    private final ApplicationConfig config;
     
     @Scheduled(fixedDelayString = "#{schedulerIntervalMs}")
     public void update() {
-        log.debug("update");
+        linkUpdater.update(config.scheduler().interval());
     }
 }
