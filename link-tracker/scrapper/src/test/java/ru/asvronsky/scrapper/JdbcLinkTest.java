@@ -19,11 +19,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import jakarta.annotation.PostConstruct;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.ChatDao;
-import ru.asvronsky.scrapper.repository.JdbcChatDao;
-import ru.asvronsky.scrapper.repository.JdbcLinkDao;
-import ru.asvronsky.scrapper.repository.JdbcSubscriptionDao;
 import ru.asvronsky.scrapper.repository.LinkDao;
 import ru.asvronsky.scrapper.repository.SubscriptionDao;
+import ru.asvronsky.scrapper.repository.jdbc.JdbcChatDao;
+import ru.asvronsky.scrapper.repository.jdbc.JdbcLinkDao;
+import ru.asvronsky.scrapper.repository.jdbc.JdbcSubscriptionDao;
 
 @JdbcTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)

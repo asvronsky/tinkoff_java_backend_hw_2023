@@ -1,4 +1,4 @@
-package ru.asvronsky.scrapper.repository;
+package ru.asvronsky.scrapper.repository.jdbc;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.scrapper.model.Chat;
+import ru.asvronsky.scrapper.repository.ChatDao;
 
 @Repository
 @RequiredArgsConstructor

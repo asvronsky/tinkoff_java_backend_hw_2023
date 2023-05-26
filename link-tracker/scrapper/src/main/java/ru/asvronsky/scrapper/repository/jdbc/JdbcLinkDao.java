@@ -1,4 +1,4 @@
-package ru.asvronsky.scrapper.repository;
+package ru.asvronsky.scrapper.repository.jdbc;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.scrapper.model.Link;
+import ru.asvronsky.scrapper.repository.LinkDao;
 
 @Repository
 @RequiredArgsConstructor
