@@ -1,4 +1,4 @@
-package ru.asvronsky.scrapper;
+package ru.asvronsky.scrapper.JdbcTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import jakarta.annotation.PostConstruct;
+import ru.asvronsky.scrapper.IntegrationEnvironment;
 import ru.asvronsky.scrapper.model.Chat;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.ChatDao;
