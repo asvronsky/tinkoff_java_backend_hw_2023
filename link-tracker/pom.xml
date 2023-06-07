@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
   
   <properties>
-    <java.version>19</java.version>
+    <java.version>20</java.version>
     <spring-cloud.version>2022.0.0</spring-cloud.version>
     <spring-boot.version>3.0.1</spring-boot.version>
     <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -29,6 +29,7 @@
     <okhttp.version>4.10.0</okhttp.version>
     <spring-jooq.version>3.0.6</spring-jooq.version>
     <liquibase.version>4.21.1</liquibase.version>
+    <mapstruct.version>1.5.5.Final</mapstruct.version>
   </properties>
   
   <modules>
@@ -36,7 +37,6 @@
     <module>link-parser</module>
     <module>scrapper</module>
     <module>shared</module>
-    <module>scrapper-jooq</module>
   </modules>
   
   <dependencies>
@@ -113,6 +113,11 @@
       <artifactId>junit-jupiter-params</artifactId>
     </dependency>
     
+    <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+    </dependency> 
 
   </dependencies>
   
@@ -242,6 +247,13 @@
         <configuration>
           <release>${java.version}</release>
           <compilerArgs>--enable-preview</compilerArgs>
+          <annotationProcessorPaths>
+            <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </path>
+        </annotationProcessorPaths>
         </configuration>
       </plugin>
 
