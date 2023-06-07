@@ -1,6 +1,6 @@
 package ru.asvronsky.scrapper.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ public class Link {
 
     private Long id;
     private String url;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     private String websiteData;
 
 }
