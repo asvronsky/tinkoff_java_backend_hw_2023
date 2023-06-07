@@ -10,17 +10,16 @@
   
   <properties>
     <java.version>20</java.version>
-    <spring-cloud.version>2022.0.0</spring-cloud.version>
-    <spring-boot.version>3.0.1</spring-boot.version>
+    <spring-cloud.version>2022.0.3</spring-cloud.version>
+    <spring-boot.version>3.1.0</spring-boot.version>
     <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetbrains.annotations>23.1.0</jetbrains.annotations>
-    <lombok.version>1.18.26</lombok.version>
+    <lombok.version>1.18.28</lombok.version>
     <spring-context-indexer.version>6.0.6</spring-context-indexer.version>
-    <junit.version>4.13.1</junit.version>
     <revision>1.0</revision>
     <maven-surefire.version>3.0.0</maven-surefire.version>
-    <jacoco.version>0.8.8</jacoco.version>
+    <jacoco.version>0.8.10</jacoco.version>
     <junit.jupyter.version>5.9.2</junit.jupyter.version>
     <mockito.version>5.2.0</mockito.version>
     <testcontainers.version>1.18.0</testcontainers.version>
@@ -40,6 +39,13 @@
   </modules>
   
   <dependencies>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.jupyter.version}</version>
+      <scope>test</scope>
+    </dependency>
     
     <dependency>
       <groupId>org.springdoc</groupId>
@@ -94,18 +100,6 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-vault-config</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
-      <scope>test</scope>
     </dependency>
     
     <dependency>
@@ -252,6 +246,11 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
+            </path>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
             </path>
         </annotationProcessorPaths>
         </configuration>
