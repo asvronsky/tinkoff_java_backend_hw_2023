@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import liquibase.Contexts;
@@ -25,12 +24,14 @@ import liquibase.resource.DirectoryResourceAccessor;
 @Testcontainers
 public abstract class IntegrationEnvironment {
     
-    @Container
     static final PostgreSQLContainer<?> POSTGRES;
 
     static {
         POSTGRES = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("scrapper");
+            .withDatabaseName("scrapper")
+            .withUsername("admin")
+            .withPassword("admin")
+            .withReuse(true);
         POSTGRES.start();
         
         runMigrations();

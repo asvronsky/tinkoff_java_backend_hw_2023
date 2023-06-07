@@ -1,0 +1,14 @@
+package ru.asvronsky.scrapper.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import ru.asvronsky.scrapper.model.Chat;
+
+public interface ChatDao {
+    
+    public void add(long chatId);
+    public Optional<Chat> remove(long chatId);
+    public List<Chat> findAll();
+    
+}
