@@ -11,7 +11,8 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @ConfigurationProperties(prefix = "app", ignoreInvalidFields = false)
-public record ApplicationConfig(@NotNull Map<String, String> apiTokens, @NotNull Scheduler scheduler) {
+public record ApplicationConfig(@NotNull Map<String, String> apiTokens, @NotNull Scheduler scheduler, 
+        AccessType databaseAccessType) {
 
     @Bean
     public long schedulerIntervalMs(ApplicationConfig config) {
@@ -20,5 +21,9 @@ public record ApplicationConfig(@NotNull Map<String, String> apiTokens, @NotNull
 
     public final record Scheduler(Duration interval) {
 
+    }
+
+    public enum AccessType {
+        JDBC, JPA
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.model.jpa.ChatEntity;
-import ru.asvronsky.scrapper.model.jpa.ChatEntityMapper;
 import ru.asvronsky.scrapper.model.jpa.LinkEntity;
 import ru.asvronsky.scrapper.model.jpa.LinkEntityMapper;
 import ru.asvronsky.scrapper.repository.SubscriptionDao;
@@ -22,7 +21,6 @@ public class JpaSubscriptionDao implements SubscriptionDao {
     private final JpaLinkEntityRepository linkRepository;
     private final JpaChatEntityRepository chatRepository;
 
-    private final ChatEntityMapper chatMapper = Mappers.getMapper(ChatEntityMapper.class);
     private final LinkEntityMapper linkMapper = Mappers.getMapper(LinkEntityMapper.class);
 
     @Override
