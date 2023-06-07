@@ -7,14 +7,12 @@ import java.util.Optional;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.scrapper.model.Chat;
 import ru.asvronsky.scrapper.repository.ChatDao;
 
-@Repository
 @RequiredArgsConstructor
 public class JdbcChatDao implements ChatDao {
 

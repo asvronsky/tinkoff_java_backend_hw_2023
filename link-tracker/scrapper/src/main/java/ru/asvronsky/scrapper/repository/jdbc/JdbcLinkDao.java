@@ -10,14 +10,12 @@ import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import ru.asvronsky.scrapper.model.Link;
 import ru.asvronsky.scrapper.repository.LinkDao;
 
-@Repository
 @RequiredArgsConstructor
 public class JdbcLinkDao implements LinkDao {
 
